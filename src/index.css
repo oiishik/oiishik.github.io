@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --surface: #f2f3f8;
+  --header: #ffffff;
+  --card: #ffffff;
+  --ink: #17152b;
+  --muted: #5c5970;
+  --line: #e3e4ee;
+  --hero: #3a2bb8;
+  --hero-muted: #e4e0ff;
+  --brand: #3a2bb8;
+  --brand-soft: #eeebfe;
+  --btn: #4032c7;
+  --btn-text: #ffffff;
+  --chip: #f7f6ff;
+  --input: #ffffff;
+  --fare: #3a2bb8;
+  --fare-ink: #ffffff;
+  --fare-muted: #e4e0ff;
+  --track: #f3f2fa;
+  --danger: #9f1239;
+  --ok-bg: #e7f8ee;
+  --ok-ink: #0b6b3a;
+  color-scheme: light;
+}
+
+.dark {
+  --surface: #0d0d17;
+  --header: #12131f;
+  --card: #151726;
+  --ink: #f5f6fb;
+  --muted: #b7b6c9;
+  --line: #2c2e42;
+  --hero: #231b6e;
+  --hero-muted: #ddd7ff;
+  --brand: #c4b8ff;
+  --brand-soft: #2a2558;
+  --btn: #d4ccff;
+  --btn-text: #1a1448;
+  --chip: #221f3d;
+  --input: #1b1d2e;
+  --fare: #3a2bb8;
+  --fare-ink: #ffffff;
+  --fare-muted: #e4e0ff;
+  --track: #1c1e30;
+  --danger: #fecdd3;
+  --ok-bg: #123226;
+  --ok-ink: #86efac;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  --color-surface: var(--surface);
+  --color-header: var(--header);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-hero: var(--hero);
+  --color-hero-muted: var(--hero-muted);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-btn: var(--btn);
+  --color-btn-text: var(--btn-text);
+  --color-chip: var(--chip);
+  --color-input: var(--input);
+  --color-fare: var(--fare);
+  --color-fare-ink: var(--fare-ink);
+  --color-fare-muted: var(--fare-muted);
+  --color-track: var(--track);
+  --color-danger: var(--danger);
+  --color-ok-bg: var(--ok-bg);
+  --color-ok-ink: var(--ok-ink);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+html,
+body {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal {
+  animation: reveal-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
