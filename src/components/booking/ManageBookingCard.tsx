@@ -135,8 +135,7 @@ export function ManageBookingCard() {
           className="fixed bottom-6 left-1/2 z-[60] inline-flex -translate-x-1/2 items-center gap-2 rounded-full bg-toast px-4 py-2.5 text-sm font-medium text-toast-ink shadow-lg"
         >
           <span className="live-dot size-2 rounded-full bg-live" aria-hidden="true" />
-          {toastCount} {toastCount === 1 ? "add-on" : "add-ons"} added to PNR{" "}
-          <span className="font-pnr">{profile.pnr}</span>
+          {toastCount} {toastCount === 1 ? "add-on" : "add-ons"} added to {profile.pnr}
         </p>
       ) : null}
     </section>

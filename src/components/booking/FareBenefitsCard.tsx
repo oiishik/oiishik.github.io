@@ -21,7 +21,7 @@ export function FareBenefitsCard() {
         </div>
       </div>
 
-      <h3 className="mt-6 text-sm font-semibold">Fare Benefits Included</h3>
+      <h3 className="mt-6 text-sm font-semibold">Fare Benefits Include</h3>
       <ul className="mt-3 grid gap-3 sm:grid-cols-2">
         {profile.fareBenefits.map((benefit) => (
           <li key={benefit.label} className="flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-3">

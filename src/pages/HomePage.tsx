@@ -54,7 +54,7 @@ export function HomePage() {
               value={profile.pnr}
               readOnly
               tabIndex={-1}
-              className={`font-pnr font-semibold tracking-wide uppercase ${lockedField}`}
+              className={`font-semibold tracking-wide uppercase ${lockedField}`}
             />
           </div>
 

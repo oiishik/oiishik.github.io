@@ -35,6 +35,6 @@ describe("Home retrieve booking", () => {
 
     await user.click(screen.getByRole("button", { name: /view booking/i }));
 
-    expect(await screen.findByRole("heading", { name: /pnr oishik/i })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: "OISHIK" })).toBeInTheDocument();
   });
 });

@@ -85,7 +85,7 @@ describe("Manage booking tiles", () => {
       expect(link).not.toHaveAttribute("download");
       expect(link.getAttribute("href")).not.toContain("export=download");
     }
-    expect(dialog).toHaveTextContent("Included with your fare");
+    expect(dialog).toHaveTextContent("Include with your fare");
     expect(dialog).not.toHaveTextContent("Senior Backend Engineer");
     expect(dialog).toHaveTextContent("30 Bookings automated in last 10min!");
     expect(dialog).toHaveTextContent("100–200 flights already subscribed!");
@@ -108,6 +108,6 @@ describe("Manage booking tiles", () => {
     expect(screen.getByText("Booking Pending Confirmation")).toBeInTheDocument();
     expect(screen.getByText("Live Flight Alerts")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /select add-on/i })).toHaveTextContent("2 added");
-    expect(screen.getByRole("status")).toHaveTextContent("2 add-ons added to PNR OISHIK");
+    expect(screen.getByRole("status")).toHaveTextContent("2 add-ons added to OISHIK");
   });
 });
