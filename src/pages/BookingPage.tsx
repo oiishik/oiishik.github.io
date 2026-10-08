@@ -5,7 +5,7 @@ import { bookingCards, cardSpanClass } from "../components/booking/cards";
 import { CheckIcon } from "../components/icons";
 import { getItinerary } from "../lib/itinerary";
 
-const SKELETON_MS = 1600;
+const SKELETON_MS = 1000;
 
 export function BookingPage() {
   const itinerary = getItinerary();
@@ -25,7 +25,9 @@ export function BookingPage() {
       <div className="mt-2 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <div className="flex flex-wrap items-center gap-3">
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">PNR {profile.pnr}</h1>
+            <h1 className="font-display text-4xl text-display sm:text-5xl">
+              PNR <span className="font-pnr normal-case">{profile.pnr}</span>
+            </h1>
             <p className="inline-flex items-center gap-1 rounded-full bg-ok-bg px-3 py-1 text-sm font-semibold text-ok-ink">
               <CheckIcon className="size-4" />
               {profile.status}

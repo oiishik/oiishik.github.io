@@ -50,7 +50,7 @@ export function BoardingPassPage() {
       <div className="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs font-semibold tracking-[0.16em] text-muted">WEB CHECK-IN COMPLETE</p>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">Your boarding pass</h1>
+          <h1 className="font-display mt-1 text-3xl text-display sm:text-4xl">Your boarding pass</h1>
         </div>
         <Link
           to="/booking"
@@ -69,13 +69,13 @@ export function BoardingPassPage() {
         >
         <div className="overflow-hidden rounded-3xl border border-line bg-card shadow-[0_16px_40px_rgba(23,21,43,0.08)] dark:shadow-[0_16px_40px_rgba(0,0,0,0.35)] md:grid md:grid-cols-[minmax(0,1fr)_220px]">
           <div>
-            <div className="flex items-center justify-between bg-[#3a2bb8] px-5 py-4 text-white">
-              <span className="inline-flex items-center gap-2 font-bold">
+            <div className="flex items-center justify-between bg-brand px-5 py-4 text-btn-text">
+              <span className="font-display inline-flex items-center gap-2 text-lg">
                 <SdeMark className="size-7" />
                 SDE
               </span>
               <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.16em]">
-                <BrandIcon src="/icons/boarding-pass.png" tone="on-brand" className="size-4" />
+                <BrandIcon src="/icons/boarding-pass.png" tone="on-fill" className="size-4" />
                 BOARDING PASS
               </span>
             </div>
@@ -83,7 +83,7 @@ export function BoardingPassPage() {
             <div className="px-5 py-4 sm:px-6">
               <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2">
                 <div>
-                  <p className="text-3xl font-bold tracking-tight sm:text-4xl">{profile.origin.code}</p>
+                  <p className="font-display text-4xl text-display sm:text-5xl">{profile.origin.code}</p>
                   <p className="text-sm text-muted">{profile.origin.city}</p>
                 </div>
                 <div className="flex min-w-16 items-center gap-1 text-brand sm:min-w-24">
@@ -92,7 +92,7 @@ export function BoardingPassPage() {
                   <span className="h-px flex-1 border-t border-dashed border-brand/60" />
                 </div>
                 <div className="text-right">
-                  <p className="text-3xl font-bold tracking-tight sm:text-4xl">{profile.destination.code}</p>
+                  <p className="font-display text-4xl text-display sm:text-5xl">{profile.destination.code}</p>
                   <p className="text-sm text-muted">{profile.destination.city}</p>
                 </div>
               </div>

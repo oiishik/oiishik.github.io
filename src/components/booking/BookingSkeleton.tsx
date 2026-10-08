@@ -22,7 +22,7 @@ export function BookingCardSkeleton({ id }: { id: string }) {
 
   if (id === "fare") {
     return (
-      <div className="h-full rounded-3xl bg-[#3a2bb8] p-4 sm:p-6" aria-hidden="true">
+      <div className="h-full rounded-3xl bg-fare p-4 sm:p-6" aria-hidden="true">
         <Bone className="h-3 w-28 bg-white/25" />
         <Bone className="mt-3 h-8 w-64 bg-white/25" />
         <div className="mt-6 grid grid-cols-2 gap-3">

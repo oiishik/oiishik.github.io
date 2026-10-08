@@ -6,16 +6,16 @@ export function FareBenefitsCard() {
   return (
     <section className="flex h-full flex-col rounded-3xl bg-fare p-4 text-fare-ink shadow-[0_10px_30px_rgba(58,43,184,0.25)] sm:p-6">
       <p className="text-xs font-semibold tracking-[0.16em] text-fare-muted">FARE & BENEFITS</p>
-      <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">{profile.fareBrand}</h2>
+      <h2 className="font-display mt-2 text-3xl sm:text-4xl">{profile.fareBrand}</h2>
 
       <div className="mt-5 grid grid-cols-2 gap-3">
         <div className="rounded-2xl bg-white/12 px-3 py-4">
-          <BrandIcon src="/icons/luggage.png" tone="on-brand" />
+          <BrandIcon src="/icons/luggage.png" tone="on-fill" />
           <p className="mt-3 text-lg font-bold">{profile.baggage.checkIn}</p>
           <p className="text-sm text-fare-muted">Check-in baggage</p>
         </div>
         <div className="rounded-2xl bg-white/12 px-3 py-4">
-          <BrandIcon src="/icons/luggage-cabin.png" tone="on-brand" />
+          <BrandIcon src="/icons/luggage-cabin.png" tone="on-fill" />
           <p className="mt-3 text-lg font-bold">{profile.baggage.cabin}</p>
           <p className="text-sm text-fare-muted">Cabin baggage</p>
         </div>
@@ -25,7 +25,7 @@ export function FareBenefitsCard() {
       <ul className="mt-3 grid gap-3 sm:grid-cols-2">
         {profile.fareBenefits.map((benefit) => (
           <li key={benefit.label} className="flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-3">
-            <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#2a1d96]">
+            <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-fare-mark">
               <img
                 src={benefit.logo}
                 alt=""
@@ -38,7 +38,7 @@ export function FareBenefitsCard() {
               </span>
               <span className="block text-sm font-semibold leading-snug">{benefit.label}</span>
             </span>
-            <CheckIcon className="size-5 shrink-0 text-[#b6f3cf]" />
+            <CheckIcon className="size-5 shrink-0 text-fare-ink" />
           </li>
         ))}
       </ul>

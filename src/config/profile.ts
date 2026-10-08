@@ -32,6 +32,7 @@ export const profile = {
   ],
   resumePath:
     "https://drive.usercontent.google.com/download?id=1QWyXqQ5doDSB-Dl_rMZlPtb04pp20OhE&export=download&confirm=t",
+  resumeViewUrl: "https://drive.google.com/file/d/1QWyXqQ5doDSB-Dl_rMZlPtb04pp20OhE/view",
   /** Gate, seat, and sequence are taken from the design PDF. */
   gate: "B7",
   seat: "2A",

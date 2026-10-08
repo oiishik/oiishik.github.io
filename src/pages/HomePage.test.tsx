@@ -46,7 +46,9 @@ describe("Home retrieve booking", () => {
     await user.type(email, "wrong@example.com");
     await user.click(screen.getByRole("button", { name: /view booking/i }));
 
-    expect(screen.getByRole("alert")).toHaveTextContent('Booking not found. Try "OISHIK".');
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      'Booking not found. Try email "oishik8sengupta@gmail.com".',
+    );
     expect(screen.getByRole("heading", { name: /manage your booking/i })).toBeInTheDocument();
   });
 
@@ -62,6 +64,29 @@ describe("Home retrieve booking", () => {
 
     await user.type(pnr, "1");
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  });
+
+  it("keeps the PNR to 6 characters", async () => {
+    const user = userEvent.setup();
+    renderAt();
+
+    const pnr = screen.getByLabelText(/pnr/i);
+    await user.clear(pnr);
+    await user.type(pnr, "DADFAFFDFDFD");
+
+    expect(pnr).toHaveValue("DADFAF");
+  });
+
+  it("rejects an email that has no @ or .com", async () => {
+    const user = userEvent.setup();
+    renderAt();
+
+    const email = screen.getByLabelText(/email address/i);
+    await user.clear(email);
+    await user.type(email, "oishik8sengupta");
+    await user.click(screen.getByRole("button", { name: /view booking/i }));
+
+    expect(screen.getByRole("alert")).toHaveTextContent("Enter a valid email with @ and .com.");
   });
 
   it("fills the email when a suggestion is hovered", async () => {

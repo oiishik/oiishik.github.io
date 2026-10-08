@@ -21,7 +21,7 @@ export function PassengerDetailsCard() {
       </div>
 
       <div className="mt-5 flex items-center gap-3 border-b border-line pb-5">
-        <span className="inline-flex size-12 items-center justify-center rounded-full bg-[#3a2bb8] text-sm font-bold text-white">
+        <span className="inline-flex size-12 items-center justify-center rounded-full bg-brand text-sm font-bold text-btn-text">
           {passengerInitials(profile.name)}
         </span>
         <div>

@@ -37,7 +37,7 @@ export function FlightDetailsCard() {
 
       <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-2 sm:gap-4">
         <div>
-          <p className="text-3xl font-bold tracking-tight sm:text-5xl">{itinerary.departure.time}</p>
+          <p className="font-display text-4xl text-display sm:text-6xl">{itinerary.departure.time}</p>
           <p className="mt-1 text-base font-semibold">{profile.origin.code}</p>
           <p className="text-sm text-muted">{profile.origin.city}</p>
           <p className="text-xs text-muted sm:text-sm">{itinerary.departureLabel}</p>
@@ -63,7 +63,7 @@ export function FlightDetailsCard() {
         </div>
 
         <div className="text-right">
-          <p className="text-3xl font-bold tracking-tight sm:text-5xl">{itinerary.arrival.time}</p>
+          <p className="font-display text-4xl text-display sm:text-6xl">{itinerary.arrival.time}</p>
           <p className="mt-1 text-base font-semibold">{profile.destination.code}</p>
           <p className="text-sm text-muted">{profile.destination.city}</p>
           <p className="text-xs text-muted sm:text-sm">{itinerary.departureLabel}</p>
@@ -87,7 +87,7 @@ export function FlightDetailsCard() {
                   />
                 )}
                 <span
-                  className={`relative mt-0.5 size-4 shrink-0 rounded-full border-2 border-[#3a2bb8] md:mt-0 ${endpoint ? "bg-[#3a2bb8]" : "bg-card"}`}
+                  className={`relative mt-0.5 size-4 shrink-0 rounded-full border-2 border-brand md:mt-0 ${endpoint ? "bg-brand" : "bg-card"}`}
                 />
                 <p className="text-sm font-semibold">
                   {stop.code}

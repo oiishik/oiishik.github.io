@@ -1,7 +1,7 @@
 import { type FocusEvent, type FormEvent, type KeyboardEvent, useId, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { profile } from "../config/profile";
-import { BOOKING_NOT_FOUND, matchesBooking } from "../lib/booking";
+import { bookingMismatchMessage, matchesBooking, PNR_MAX_LENGTH } from "../lib/booking";
 import { emailDomainSuggestions } from "../lib/emailSuggestions";
 import { ArrowRightIcon } from "../components/icons";
 import { BrandIcon } from "../components/BrandIcon";
@@ -72,17 +72,17 @@ export function HomePage() {
       navigate("/booking");
       return;
     }
-    setError(BOOKING_NOT_FOUND);
+    setError(bookingMismatchMessage(pnr, email));
   }
 
   return (
     <div className="flex w-full flex-col">
-      <section className="shrink-0 bg-hero text-left text-white">
+      <section className="shrink-0 bg-hero text-left text-ink">
         <div className="px-5 pt-5 pb-10 sm:px-8 lg:px-12">
           <p className="text-xs font-semibold tracking-[0.16em] text-hero-muted sm:text-sm">
             {profile.role.toUpperCase()} · MANAGE BOOKING
           </p>
-          <h1 className="mt-2 max-w-xl text-3xl font-bold tracking-tight sm:text-4xl">
+          <h1 className="font-display mt-2 max-w-3xl text-4xl text-display sm:text-6xl">
             Manage your booking
           </h1>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-hero-muted sm:text-base">
@@ -118,11 +118,12 @@ export function HomePage() {
               aria-invalid={error ? true : undefined}
               aria-describedby={error ? "booking-error" : undefined}
               onFocus={skipBrowserSuggestions}
+              maxLength={PNR_MAX_LENGTH}
               onChange={(event) => {
-                setPnr(event.target.value);
+                setPnr(event.target.value.slice(0, PNR_MAX_LENGTH));
                 setError("");
               }}
-              className="mt-1.5 w-full rounded-xl border border-line bg-input px-4 py-2.5 text-ink uppercase"
+              className="font-pnr mt-1.5 w-full rounded-xl border border-line bg-input px-4 py-2.5 font-semibold tracking-wide text-ink uppercase"
             />
           </div>
 
@@ -194,7 +195,18 @@ export function HomePage() {
 
           {error ? (
             <p id="booking-error" role="alert" className="mt-3 text-sm font-medium text-danger">
-              {error}
+              {error.split(`"${profile.pnr}"`).map((part, index, parts) => (
+                <span key={index}>
+                  {part}
+                  {index < parts.length - 1 ? (
+                    <>
+                      {'"'}
+                      <span className="font-pnr font-semibold">{profile.pnr}</span>
+                      {'"'}
+                    </>
+                  ) : null}
+                </span>
+              ))}
             </p>
           ) : null}
 

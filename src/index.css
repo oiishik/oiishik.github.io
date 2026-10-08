@@ -3,61 +3,74 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --surface: #f2f3f8;
-  --header: #ffffff;
-  --card: #ffffff;
-  --ink: #17152b;
-  --muted: #5c5970;
-  --line: #e3e4ee;
-  --hero: #3a2bb8;
-  --hero-muted: #e4e0ff;
-  --brand: #3a2bb8;
-  --brand-soft: #eeebfe;
-  --btn: #4032c7;
-  --btn-text: #ffffff;
-  --chip: #f7f6ff;
-  --input: #ffffff;
-  --fare: #3a2bb8;
-  --fare-ink: #ffffff;
-  --fare-muted: #e4e0ff;
-  --track: #f3f2fa;
-  --danger: #9f1239;
-  --ok-bg: #e7f8ee;
-  --ok-ink: #0b6b3a;
+  --surface: #f3c1c0;
+  --header: #fff8f7;
+  --card: #fff8f7;
+  --ink: #7c2d1a;
+  --muted: #8f3018;
+  --line: #e7b0ad;
+  --display: #c4472c;
+  --hero: #f3c1c0;
+  --hero-muted: #8f3018;
+  --brand: #c4472c;
+  --brand-soft: #fbe6e4;
+  --btn: #c4472c;
+  --btn-text: #fff8f6;
+  --chip: #fbe6e4;
+  --input: #fff8f7;
+  --fare: #c4472c;
+  --fare-ink: #fff8f6;
+  --fare-muted: #ffd8cc;
+  --fare-mark: #8f3018;
+  --track: #fbe6e4;
+  --danger: #8f1d3a;
+  --ok-bg: #fff1ea;
+  --ok-ink: #8f3018;
+  --live: #c4472c;
+  --toast: #c4472c;
+  --toast-ink: #fff8f6;
   color-scheme: light;
 }
 
 .dark {
-  --surface: #0d0d17;
-  --header: #12131f;
-  --card: #151726;
-  --ink: #f5f6fb;
-  --muted: #b7b6c9;
-  --line: #2c2e42;
-  --hero: #231b6e;
-  --hero-muted: #ddd7ff;
-  --brand: #c4b8ff;
-  --brand-soft: #2a2558;
-  --btn: #d4ccff;
-  --btn-text: #1a1448;
-  --chip: #221f3d;
-  --input: #1b1d2e;
-  --fare: #3a2bb8;
-  --fare-ink: #ffffff;
-  --fare-muted: #e4e0ff;
-  --track: #1c1e30;
-  --danger: #fecdd3;
-  --ok-bg: #123226;
-  --ok-ink: #86efac;
+  --surface: #434250;
+  --header: #3a3846;
+  --card: #4e4c5c;
+  --ink: #efe6fb;
+  --muted: #c3b6d6;
+  --line: #5e5b6e;
+  --display: #ceb0f0;
+  --hero: #3a3846;
+  --hero-muted: #c3b6d6;
+  --brand: #ceb0f0;
+  --brand-soft: #3a3848;
+  --btn: #ceb0f0;
+  --btn-text: #2a2836;
+  --chip: #3a3848;
+  --input: #3a3848;
+  --fare: #ceb0f0;
+  --fare-ink: #2a2836;
+  --fare-muted: #4a4560;
+  --fare-mark: #3a3848;
+  --track: #3a3848;
+  --danger: #ffd0d6;
+  --ok-bg: #2a3a44;
+  --ok-ink: #89e3fe;
+  --live: #89e3fe;
+  --toast: #2a2836;
+  --toast-ink: #ceb0f0;
   color-scheme: dark;
 }
 
 @theme inline {
-  --font-sans: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  --font-sans: "Montserrat", "Segoe UI", sans-serif;
+  --font-display: "Anton", "Montserrat", sans-serif;
+  --font-pnr: "League Spartan", "Montserrat", sans-serif;
   --color-surface: var(--surface);
   --color-header: var(--header);
   --color-card: var(--card);
   --color-ink: var(--ink);
+  --color-display: var(--display);
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-hero: var(--hero);
@@ -75,6 +88,10 @@
   --color-danger: var(--danger);
   --color-ok-bg: var(--ok-bg);
   --color-ok-ink: var(--ok-ink);
+  --color-live: var(--live);
+  --color-toast: var(--toast);
+  --color-toast-ink: var(--toast-ink);
+  --color-fare-mark: var(--fare-mark);
 }
 
 html,
@@ -95,6 +112,37 @@ body {
   font-family: var(--font-sans);
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--display) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--display);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 @keyframes reveal-in {
   from {
     opacity: 0;
@@ -108,6 +156,22 @@ body {
 
 .reveal {
   animation: reveal-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes live-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.75);
+  }
+}
+
+.live-dot {
+  animation: live-dot 1.3s ease-in-out infinite;
 }
 
 :focus-visible {
