@@ -48,7 +48,7 @@ describe("Manage booking tiles", () => {
   it("opens the boarding pass in the same tab on a phone", () => {
     mockMatchMedia(true);
     renderCard();
-    const link = screen.getByRole("link", { name: "Web Check-in" });
+    const link = screen.getByRole("link", { name: "See Boarding Pass" });
     expect(link).toHaveAttribute("href", "/boarding-pass");
     expect(link).not.toHaveAttribute("target");
   });
@@ -56,7 +56,7 @@ describe("Manage booking tiles", () => {
   it("opens the boarding pass in a new tab on a wide screen", () => {
     mockMatchMedia(false);
     renderCard();
-    const link = screen.getByRole("link", { name: /web check-in/i });
+    const link = screen.getByRole("link", { name: /see boarding pass/i });
     expect(link).toHaveAttribute("target", "_blank");
   });
 

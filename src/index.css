@@ -27,6 +27,8 @@
   --ok-bg: #fff1ea;
   --ok-ink: #8f3018;
   --live: #c4472c;
+  --landed: #e5f6ea;
+  --landed-ink: #1b7a43;
   --toast: #c4472c;
   --toast-ink: #fff8f6;
   color-scheme: light;
@@ -57,6 +59,8 @@
   --ok-bg: #2a3a44;
   --ok-ink: #89e3fe;
   --live: #89e3fe;
+  --landed: #1a3328;
+  --landed-ink: #8ddeb4;
   --toast: #2a2836;
   --toast-ink: #ceb0f0;
   color-scheme: dark;
@@ -89,6 +93,8 @@
   --color-ok-bg: var(--ok-bg);
   --color-ok-ink: var(--ok-ink);
   --color-live: var(--live);
+  --color-landed: var(--landed);
+  --color-landed-ink: var(--landed-ink);
   --color-toast: var(--toast);
   --color-toast-ink: var(--toast-ink);
   --color-fare-mark: var(--fare-mark);

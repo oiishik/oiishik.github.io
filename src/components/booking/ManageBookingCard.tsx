@@ -95,7 +95,7 @@ export function ManageBookingCard() {
           className={`${tileClass} hover:border-brand`}
         >
           <BrandIcon src="/icons/boarding-pass.png" />
-          Web Check-in
+          See Boarding Pass
           {mobile ? null : <span className="sr-only"> (opens in a new tab)</span>}
         </Link>
         <a className={`${tileClass} hover:border-brand`} href={profile.resumePath} download>

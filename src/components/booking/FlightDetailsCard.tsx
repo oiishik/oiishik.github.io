@@ -1,6 +1,7 @@
 import { useId, useState } from "react";
 import { profile } from "../../config/profile";
-import { getItinerary } from "../../lib/itinerary";
+import { flightTrackProgress, getItinerary, type Itinerary } from "../../lib/itinerary";
+import { useFlightClock } from "./FlightStatus";
 import { BrandIcon } from "../BrandIcon";
 import { ChevronIcon } from "../icons";
 
@@ -14,10 +15,11 @@ function routeStops(): Stop[] {
   ];
 }
 
-export function FlightDetailsCard() {
+export function FlightDetailsCard({ itinerary = getItinerary() }: { itinerary?: Itinerary }) {
   const [open, setOpen] = useState(true);
   const routeId = useId();
-  const itinerary = getItinerary();
+  const now = useFlightClock();
+  const progress = flightTrackProgress(itinerary.departureAt, itinerary.arrivalAt, now);
   const stops = routeStops();
   const stopCount = profile.stops.length;
 
@@ -45,10 +47,14 @@ export function FlightDetailsCard() {
 
         <div className="flex flex-col items-center px-1 pt-2 text-center sm:px-4">
           <p className="text-xs font-medium text-muted sm:text-sm">{itinerary.durationLabel}</p>
-          <div className="my-2 flex w-full min-w-24 items-center gap-2 text-brand sm:min-w-40">
-            <span className="h-px flex-1 border-t border-dashed border-brand/50" />
-            <BrandIcon src="/icons/plane.png" className="size-4 shrink-0" />
-            <span className="h-px flex-1 border-t border-dashed border-brand/50" />
+          <div className="relative my-2 h-4 w-full min-w-24 sm:min-w-40">
+            <span className="absolute top-1/2 right-0 left-0 h-px -translate-y-1/2 border-t border-dashed border-brand/50" />
+            <span
+              className="absolute top-1/2"
+              style={{ left: `${progress * 100}%`, transform: `translate(-${progress * 100}%, -50%)` }}
+            >
+              <BrandIcon src="/icons/plane.png" className="size-4" />
+            </span>
           </div>
           <button
             type="button"
@@ -66,7 +72,7 @@ export function FlightDetailsCard() {
           <p className="font-display text-4xl text-display sm:text-6xl">{itinerary.arrival.time}</p>
           <p className="mt-1 text-base font-semibold">{profile.destination.code}</p>
           <p className="text-sm text-muted">{profile.destination.city}</p>
-          <p className="text-xs text-muted sm:text-sm">{itinerary.departureLabel}</p>
+          <p className="text-xs text-muted sm:text-sm">{itinerary.arrivalLabel}</p>
         </div>
       </div>
 

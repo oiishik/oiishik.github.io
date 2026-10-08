@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { flightLabel, profile } from "../config/profile";
 import { ArrowLeftIcon } from "../components/icons";
 import { BrandIcon, SdeMark } from "../components/BrandIcon";
-import { getItinerary } from "../lib/itinerary";
+import { rememberItinerary } from "../lib/itinerary";
 
 const QR_LABEL = "QR code linking to Oishik Sengupta's LinkedIn profile";
 
@@ -18,7 +18,7 @@ function Field({ label, value }: { label: string; value: string }) {
 }
 
 export function BoardingPassPage() {
-  const itinerary = getItinerary();
+  const [itinerary] = useState(() => rememberItinerary());
   const passenger = profile.name.toUpperCase();
   const frameRef = useRef<HTMLDivElement>(null);
   const passRef = useRef<HTMLElement>(null);
