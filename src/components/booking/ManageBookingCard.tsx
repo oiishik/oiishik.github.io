@@ -9,6 +9,25 @@ import { AddonDialog } from "./AddonDialog";
 const tileClass =
   "relative flex min-h-28 flex-col items-center justify-center gap-2 rounded-2xl border border-line bg-chip px-3 py-4 text-center text-sm font-semibold text-ink";
 
+const MOBILE_LAYOUT = "(max-width: 639px)";
+
+function useMobileLayout() {
+  const [mobile, setMobile] = useState(
+    () => typeof window.matchMedia === "function" && window.matchMedia(MOBILE_LAYOUT).matches,
+  );
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") return;
+    const media = window.matchMedia(MOBILE_LAYOUT);
+    const sync = () => setMobile(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  return mobile;
+}
+
 function DisabledTile({ label, src }: { label: string; src: string }) {
   return (
     <button type="button" className={`${tileClass} cursor-not-allowed opacity-45`} disabled aria-disabled="true">
@@ -23,6 +42,7 @@ export function ManageBookingCard() {
   const [confirmed, setConfirmed] = useState<string[]>([]);
   const [draft, setDraft] = useState<string[]>([]);
   const [toastCount, setToastCount] = useState(0);
+  const mobile = useMobileLayout();
 
   useEffect(() => {
     if (toastCount === 0) return;
@@ -70,13 +90,13 @@ export function ManageBookingCard() {
         </button>
         <Link
           to="/boarding-pass"
-          target="_blank"
-          rel="noopener noreferrer"
+          target={mobile ? undefined : "_blank"}
+          rel={mobile ? undefined : "noopener noreferrer"}
           className={`${tileClass} hover:border-brand`}
         >
           <BrandIcon src="/icons/boarding-pass.png" />
           Web Check-in
-          <span className="sr-only"> (opens in a new tab)</span>
+          {mobile ? null : <span className="sr-only"> (opens in a new tab)</span>}
         </Link>
         <a className={`${tileClass} hover:border-brand`} href={profile.resumePath} download>
           <BrandIcon src="/icons/ticket.png" />

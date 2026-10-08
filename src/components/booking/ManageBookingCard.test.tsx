@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { profile } from "../../config/profile";
 import { ManageBookingCard } from "./ManageBookingCard";
 
@@ -12,6 +12,23 @@ function renderCard() {
     </MemoryRouter>,
   );
 }
+
+function mockMatchMedia(matches: boolean) {
+  window.matchMedia = ((query: string) => ({
+    matches,
+    media: query,
+    onchange: null,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    addListener: () => {},
+    removeListener: () => {},
+    dispatchEvent: () => false,
+  })) as typeof window.matchMedia;
+}
+
+afterEach(() => {
+  Reflect.deleteProperty(window, "matchMedia");
+});
 
 describe("Manage booking tiles", () => {
   it("does nothing when a disabled tile is clicked", () => {
@@ -26,6 +43,21 @@ describe("Manage booking tiles", () => {
 
     expect(screen.getByRole("heading", { name: /manage booking/i })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /back to booking/i })).not.toBeInTheDocument();
+  });
+
+  it("opens the boarding pass in the same tab on a phone", () => {
+    mockMatchMedia(true);
+    renderCard();
+    const link = screen.getByRole("link", { name: "Web Check-in" });
+    expect(link).toHaveAttribute("href", "/boarding-pass");
+    expect(link).not.toHaveAttribute("target");
+  });
+
+  it("opens the boarding pass in a new tab on a wide screen", () => {
+    mockMatchMedia(false);
+    renderCard();
+    const link = screen.getByRole("link", { name: /web check-in/i });
+    expect(link).toHaveAttribute("target", "_blank");
   });
 
   it("downloads the Drive PDF instead of opening the viewer", () => {
