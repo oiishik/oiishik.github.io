@@ -1,15 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { profile } from "../config/profile";
 import { BookingCardSkeleton } from "../components/booking/BookingSkeleton";
 import { bookingCards, cardSpanClass } from "../components/booking/cards";
 import { CheckIcon } from "../components/icons";
 import { getItinerary } from "../lib/itinerary";
+import { motionEnabled } from "../lib/motion";
 
 const SKELETON_MS = 1000;
 
 export function BookingPage() {
   const itinerary = getItinerary();
   const [ready, setReady] = useState(false);
+  const cards = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (!ready || !motionEnabled()) return;
+      gsap.from("[data-booking-card]", {
+        opacity: 0,
+        duration: 0.35,
+        stagger: 0.05,
+        ease: "power2.out",
+      });
+    },
+    { dependencies: [ready], scope: cards },
+  );
 
   useEffect(() => {
     const reduce =
@@ -40,11 +57,11 @@ export function BookingPage() {
         </div>
       </div>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-5" aria-busy={!ready}>
+      <div ref={cards} className="mt-6 grid gap-4 lg:grid-cols-5" aria-busy={!ready}>
         {bookingCards.map(({ id, span, Component }) => (
           <div key={id} className={cardSpanClass(span)}>
             {ready ? (
-              <div className="reveal">
+              <div data-booking-card>
                 <Component />
               </div>
             ) : (

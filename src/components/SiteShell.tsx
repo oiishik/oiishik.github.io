@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { PageTransition } from "./PageTransition";
 import { SiteFooter } from "./SiteFooter";
 import { SiteHeader } from "./SiteHeader";
 
@@ -7,7 +7,7 @@ export function SiteShell() {
     <div className="flex h-dvh w-full flex-col overflow-hidden bg-surface text-ink">
       <SiteHeader />
       <main className="flex min-h-0 w-full flex-1 flex-col overflow-y-auto">
-        <Outlet />
+        <PageTransition />
       </main>
       <SiteFooter />
     </div>

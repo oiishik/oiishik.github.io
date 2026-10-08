@@ -1,9 +1,12 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { addons, type Addon } from "../../config/addons";
 import { flightLabel, profile } from "../../config/profile";
 import { BrandIcon } from "../BrandIcon";
 import { CheckIcon, ChevronIcon } from "../icons";
+import { motionEnabled } from "../../lib/motion";
 
 function AddonCard({
   addon,
@@ -122,7 +125,20 @@ export function AddonDialog({
   onConfirm: () => void;
 }) {
   const titleId = useId();
+  const panel = useRef<HTMLDivElement>(null);
   const count = selected.length;
+
+  useGSAP(
+    () => {
+      if (!panel.current || !motionEnabled()) return;
+      gsap.from(panel.current, {
+        opacity: 0,
+        duration: 0.28,
+        ease: "power2.out",
+      });
+    },
+    { scope: panel },
+  );
   const summary = count === 0 ? "No add-ons selected" : count === 1 ? "1 add-on selected" : `${count} add-ons selected`;
 
   useEffect(() => {
@@ -137,6 +153,7 @@ export function AddonDialog({
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-[#2a2836]/55 sm:items-center sm:p-6">
       <button type="button" className="absolute inset-0 cursor-default" aria-label="Close add-ons" onClick={onCancel} />
       <div
+        ref={panel}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
