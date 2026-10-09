@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { profile } from "../../config/profile";
-import { CurrentIcon } from "../BrandIcon";
 import { TicketIcon } from "../icons";
 
 type Skill = { name: string; icon?: string; wide?: boolean };
@@ -14,12 +13,15 @@ const stack: { label: string; items: Skill[] }[] = [
     ],
   },
   {
-    label: "Frameworks",
+    label: "Backend",
     items: [
       { name: "Node.js", icon: "/logos/nodejs.png" },
-      { name: "React", icon: "/logos/react.png" },
       { name: "Spring Boot", icon: "/logos/spring-boot.png" },
     ],
+  },
+  {
+    label: "Frontend",
+    items: [{ name: "React", icon: "/logos/react.png" }],
   },
   {
     label: "Cloud",
@@ -68,18 +70,6 @@ export function FareBenefitsCard() {
       </div>
       <dl className="mt-1">
         <Row label="Brand">{profile.fareBrand}</Row>
-        <Row label="Baggage">
-          <span className="flex flex-wrap items-center gap-x-5 gap-y-1">
-            <span className="inline-flex items-center gap-2">
-              <CurrentIcon src="/icons/luggage.png" />
-              Check-in <span className="tabular-nums">{profile.baggage.checkIn}</span>
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <CurrentIcon src="/icons/luggage-cabin.png" />
-              Cabin <span className="tabular-nums">{profile.baggage.cabin}</span>
-            </span>
-          </span>
-        </Row>
         {stack.map(({ label, items }) => (
           <Row key={label} label={label}>
             <span className="flex flex-wrap items-center gap-x-4 gap-y-1.5">

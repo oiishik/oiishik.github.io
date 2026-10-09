@@ -21,7 +21,6 @@ export const profile = {
   role: roleTitle,
   fareBrand: roleTitle,
   cabinClass: "Economy",
-  baggage: { checkIn: "15 kg", cabin: "7 kg" },
   fareBenefits: [
     { category: "TYPESCRIPT", label: "Node.js, React.js", logo: "/logos/nodejs.png" },
     { category: "JAVA", label: "Java, Spring Boot", logo: "/logos/java.png" },
