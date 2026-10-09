@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { addons } from "../../config/addons";
 import { profile } from "../../config/profile";
+import { trackEvent } from "../../lib/goatcounter";
 import { CurrentIcon } from "../BrandIcon";
 import { FareBenefitsCard } from "./FareBenefitsCard";
 import { PassengerDetailsCard } from "./PassengerDetailsCard";
@@ -96,6 +97,7 @@ export function ManageBookingCard() {
   }, [toastCount]);
 
   function openDialog() {
+    trackEvent("click-add-ons", "Clicked add-ons");
     setDraft(confirmed);
     setOpen(true);
   }
