@@ -22,6 +22,7 @@ describe("BookingPage", () => {
     );
 
     expect(screen.queryByText(/Flight scheduled to depart in/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/CCU/)).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "OISHIK" })).toBeInTheDocument();
 
     act(() => {
@@ -29,6 +30,7 @@ describe("BookingPage", () => {
     });
 
     expect(screen.getByText(/Flight scheduled to depart in/)).toBeInTheDocument();
+    expect(screen.getByText(/CCU\s*→\s*PNQ/)).toBeInTheDocument();
     expect(screen.getByText("00:15:00")).toBeInTheDocument();
   });
 

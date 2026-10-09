@@ -1,15 +1,21 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import { AppRoutes } from "../App";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { profile } from "../config/profile";
 
+function LocationProbe() {
+  const { pathname } = useLocation();
+  return <div data-testid="path">{pathname}</div>;
+}
+
 function renderAt(path = "/") {
   return render(
     <MemoryRouter initialEntries={[path]}>
       <ThemeProvider>
+        <LocationProbe />
         <AppRoutes />
       </ThemeProvider>
     </MemoryRouter>,
@@ -36,5 +42,6 @@ describe("Home retrieve booking", () => {
     await user.click(screen.getByRole("button", { name: /view booking/i }));
 
     expect(await screen.findByRole("heading", { name: "OISHIK" })).toBeInTheDocument();
+    expect(screen.getByTestId("path")).toHaveTextContent("/trips/OISHIK");
   });
 });

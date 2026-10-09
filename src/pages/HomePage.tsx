@@ -11,7 +11,7 @@ export function HomePage() {
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    navigate("/booking");
+    navigate(`/trips/${profile.pnr}`);
   }
 
   return (

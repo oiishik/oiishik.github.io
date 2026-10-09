@@ -6,7 +6,7 @@ import { CurrentIcon } from "../BrandIcon";
 import { FareBenefitsCard } from "./FareBenefitsCard";
 import { PassengerDetailsCard } from "./PassengerDetailsCard";
 import { AddonDialog } from "./AddonDialog";
-import { ArrowRightIcon, DownloadIcon, GearIcon } from "../icons";
+import { ArrowRightIcon } from "../icons";
 
 const MOBILE_LAYOUT = "(max-width: 639px)";
 
@@ -168,7 +168,7 @@ export function ManageBookingCard() {
       <section className="pt-8">
         <div className="flex items-end justify-between gap-3 border-b border-ink pb-2">
           <h2 className="flex items-center gap-2 text-base font-semibold">
-            <GearIcon className="size-4" />
+            <CurrentIcon src="/icons/appointment.png" />
             Manage booking
           </h2>
         </div>
@@ -189,7 +189,7 @@ export function ManageBookingCard() {
             external={!mobile}
           />
           <Row
-            icon={<DownloadIcon className="size-4" />}
+            icon={<CurrentIcon src="/icons/download.png" />}
             label="Download e-ticket"
             meta="PDF ↓"
             href={profile.resumePath}

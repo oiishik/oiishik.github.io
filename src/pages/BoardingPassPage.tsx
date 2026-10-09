@@ -3,7 +3,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { Link } from "react-router-dom";
 import { flightLabel, profile } from "../config/profile";
 import { ArrowLeftIcon } from "../components/icons";
-import { SdeMark } from "../components/BrandIcon";
+import { CurrentIcon, SdeMark } from "../components/BrandIcon";
 import { rememberItinerary, type CivilDate } from "../lib/itinerary";
 
 function pad(value: string, length: number) {
@@ -37,11 +37,14 @@ function boardingPassCode(date: CivilDate) {
   ].join("");
 }
 
-function Field({ label, value }: { label: string; value: string }) {
+function Field({ label, value, icon }: { label: string; value: string; icon?: string }) {
   return (
     <div>
       <p className="text-[11px] font-semibold tracking-[0.08em] text-muted">{label}</p>
-      <p className="mt-1 font-semibold tabular-nums">{value}</p>
+      <p className="mt-1 inline-flex items-center gap-1.5 font-semibold tabular-nums">
+        {icon ? <CurrentIcon src={icon} /> : null}
+        {value}
+      </p>
     </div>
   );
 }
@@ -80,7 +83,7 @@ export function BoardingPassPage() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-3xl font-semibold">Boarding pass</h1>
         <Link
-          to="/booking"
+          to={`/trips/${profile.pnr}`}
           className="inline-flex w-fit items-center gap-2 rounded-md border border-ink/30 px-4 py-2 text-sm font-semibold"
         >
           <ArrowLeftIcon className="size-4" />
@@ -128,7 +131,7 @@ export function BoardingPassPage() {
               <Field label="BOARDING" value={itinerary.boardingTime} />
               <Field label="DEPARTURE" value={itinerary.departure.time} />
               <Field label="GATE" value={profile.gate} />
-              <Field label="SEAT" value={profile.seat} />
+              <Field label="SEAT" value={profile.seat} icon="/icons/seat.png" />
               <Field label="SEQUENCE" value={profile.sequence} />
             </div>
 
@@ -166,7 +169,10 @@ export function BoardingPassPage() {
             </div>
             <div>
               <dt className="text-[11px] font-semibold tracking-[0.08em] text-muted">SEAT</dt>
-              <dd className="mt-1 font-semibold tabular-nums">{profile.seat}</dd>
+              <dd className="mt-1 flex items-center justify-center gap-1 font-semibold tabular-nums">
+                <CurrentIcon src="/icons/seat.png" />
+                {profile.seat}
+              </dd>
             </div>
             <div>
               <dt className="text-[11px] font-semibold tracking-[0.08em] text-muted">SEQ</dt>

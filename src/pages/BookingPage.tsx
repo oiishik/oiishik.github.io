@@ -91,17 +91,19 @@ export function BookingPage() {
               <h1 className="font-display text-6xl leading-none text-display tabular-nums sm:text-7xl">{profile.pnr}</h1>
               <CopyPnrButton />
             </div>
-            <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
-              <span className="inline-flex items-center gap-1 rounded-sm bg-ok-bg px-2 py-0.5 text-xs font-semibold text-ok-ink">
-                <CheckIcon className="size-3.5" />
-                {profile.status}
-              </span>
-              <span>
-                {profile.origin.code} → {profile.destination.code}
-              </span>
-              {itinerary ? <span className="tabular-nums">{itinerary.departureLabel}</span> : null}
-              <span>1 {profile.passengerType}</span>
-            </p>
+            {itinerary ? (
+              <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
+                <span className="inline-flex items-center gap-1 rounded-sm bg-ok-bg px-2 py-0.5 text-xs font-semibold text-ok-ink">
+                  <CheckIcon className="size-3.5" />
+                  {profile.status}
+                </span>
+                <span>
+                  {profile.origin.code} → {profile.destination.code}
+                </span>
+                <span className="tabular-nums">{itinerary.departureLabel}</span>
+                <span>1 {profile.passengerType}</span>
+              </p>
+            ) : null}
           </div>
           {itinerary ? <FlightStatus itinerary={itinerary} /> : null}
         </div>

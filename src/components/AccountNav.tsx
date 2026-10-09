@@ -1,0 +1,48 @@
+import { Link, useLocation } from "react-router-dom";
+import { profile } from "../config/profile";
+import { CurrentIcon } from "./BrandIcon";
+
+const pnrPath = /^\/trips\/[^/]+$/;
+
+export function accountLinks(pathname: string) {
+  const onPnr = pnrPath.test(pathname);
+  return [
+    { to: "/", label: "Manage Booking", icon: "/icons/appointment.png", active: pathname === "/" },
+    {
+      to: onPnr ? pathname : `/trips/${profile.pnr}`,
+      label: "View Booking",
+      icon: "/icons/booking.png",
+      active: onPnr,
+    },
+    { to: "/trips", label: "Trips", icon: "/icons/travel-agency.png", active: pathname === "/trips" },
+    { to: "/profile", label: "Profile", icon: "/icons/user.png", active: pathname === "/profile" },
+  ];
+}
+
+export function AccountNav() {
+  const { pathname } = useLocation();
+  const visible = pathname === "/profile" || pathname.startsWith("/trips");
+  if (!visible) return null;
+
+  const links = accountLinks(pathname);
+
+  return (
+    <nav aria-label="Account" className="border-b border-line bg-page">
+      <div className="mx-auto flex max-w-6xl gap-6 overflow-x-auto px-5 sm:px-8 lg:px-12">
+        {links.map((link) => (
+          <Link
+            key={link.label}
+            to={link.to}
+            aria-current={link.active ? "page" : undefined}
+            className={`inline-flex shrink-0 items-center gap-2 border-b-2 py-3 text-sm font-semibold ${
+              link.active ? "border-brand text-brand" : "border-transparent text-ink"
+            }`}
+          >
+            <CurrentIcon src={link.icon} />
+            {link.label}
+          </Link>
+        ))}
+      </div>
+    </nav>
+  );
+}
