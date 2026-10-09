@@ -4,9 +4,38 @@ import { Link } from "react-router-dom";
 import { flightLabel, profile } from "../config/profile";
 import { ArrowLeftIcon } from "../components/icons";
 import { SdeMark } from "../components/BrandIcon";
-import { rememberItinerary } from "../lib/itinerary";
+import { rememberItinerary, type CivilDate } from "../lib/itinerary";
 
-const QR_LABEL = "QR code linking to Oishik Sengupta's LinkedIn profile";
+function pad(value: string, length: number) {
+  return value.slice(0, length).padEnd(length, " ");
+}
+
+/** IATA boarding-pass barcode. A scan reads the passenger and flight, not a web link. */
+function boardingPassCode(date: CivilDate) {
+  const day =
+    Math.round(
+      (Date.UTC(date.year, date.month - 1, date.day) - Date.UTC(date.year, 0, 1)) / 86400000,
+    ) + 1;
+  const [first, ...rest] = profile.name.trim().split(/\s+/);
+  const last = (rest.at(-1) ?? first).toUpperCase();
+  const given = (rest.length > 0 ? [first, ...rest.slice(0, -1)] : []).join("").toUpperCase();
+
+  return [
+    "M1",
+    pad(`${last}/${given}`, 20),
+    "E",
+    pad(profile.pnr, 7),
+    profile.origin.code,
+    profile.destination.code,
+    pad(profile.carrier, 3),
+    pad(profile.flightNumber, 5),
+    String(day).padStart(3, "0"),
+    "Y",
+    pad(profile.seat, 4),
+    pad(profile.sequence, 5),
+    "100",
+  ].join("");
+}
 
 function Field({ label, value }: { label: string; value: string }) {
   return (
@@ -121,13 +150,13 @@ export function BoardingPassPage() {
           />
           <div className="mx-auto w-fit border border-line bg-white p-3">
             <QRCodeSVG
-              value={profile.linkedinUrl}
+              value={boardingPassCode(itinerary.departure.date)}
               size={168}
               level="M"
               marginSize={4}
               bgColor="#ffffff"
               fgColor="#111111"
-              title={QR_LABEL}
+              aria-hidden="true"
             />
           </div>
           <dl className="mt-5 grid grid-cols-3 gap-2 text-center">
