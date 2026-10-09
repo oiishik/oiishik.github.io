@@ -1,13 +1,48 @@
-import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { BrowserRouter, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { SiteShell } from "./components/SiteShell";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { profile } from "./config/profile";
+import { trackEvent, visitEvent } from "./lib/goatcounter";
 import { BoardingPassPage } from "./pages/BoardingPassPage";
 import { BookingPage } from "./pages/BookingPage";
 import { HomePage } from "./pages/HomePage";
 import { PastBookingPage } from "./pages/PastBookingPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { TripsPage } from "./pages/TripsPage";
+
+function GoatCounterPageViews() {
+  const location = useLocation();
+  const initial = useRef(true);
+
+  useEffect(() => {
+    if (!initial.current) {
+      window.goatcounter?.count({
+        path: `${location.pathname}${location.search}`,
+      });
+    } else {
+      initial.current = false;
+    }
+    const visit = visitEvent(location.pathname);
+    if (visit) trackEvent(visit.path, visit.title);
+  }, [location.pathname, location.search]);
+
+  useEffect(() => {
+    function onClick(event: MouseEvent) {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const link = target.closest("a");
+      if (!link) return;
+      const href = link.getAttribute("href") ?? "";
+      if (href.startsWith("mailto:")) trackEvent("click-email", "Clicked email");
+      if (link.hasAttribute("download")) trackEvent("download-e-ticket", "Downloaded e-ticket");
+    }
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
+
+  return null;
+}
 
 function TripPage() {
   const { pnr = "" } = useParams();
@@ -35,6 +70,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <GoatCounterPageViews />
         <AppRoutes />
       </BrowserRouter>
     </ThemeProvider>
