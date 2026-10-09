@@ -70,7 +70,8 @@ export function FlightStatus({ itinerary }: { itinerary: Itinerary }) {
           <CurrentIcon src="/icons/plane-landing.png" className="size-4" />
           Flight landed in {profile.destination.city} · Arrived {itinerary.arrival.time} · {profile.destination.code}
         </p>
-        <p className="rounded-sm border border-landed-ink/40 px-2 py-1 text-xs font-semibold">
+        <p className="inline-flex items-center gap-2 rounded-sm border border-landed-ink/40 px-2 py-1 text-xs font-semibold">
+          <CurrentIcon src="/icons/conveyor-belt.png" />
           Baggage belt 5
         </p>
       </div>
