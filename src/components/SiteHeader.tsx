@@ -9,28 +9,21 @@ export function SiteHeader() {
   const nextLabel = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
 
   return (
-    <header className="border-b border-line bg-header">
+    <header className="bg-header text-header-ink">
       <div className="flex h-16 items-center justify-between gap-3 px-5 sm:px-8 lg:px-12">
-        <Link
-          to="/"
-          className="flex min-w-0 items-center gap-3 rounded-lg text-ink"
-        >
+        <Link to="/" className="flex min-w-0 items-center gap-3 text-header-ink">
           <SdeMark />
-          <span className="min-w-0 text-sm font-bold tracking-tight sm:truncate sm:text-base">{profile.role}</span>
-          <span className="hidden h-5 w-px shrink-0 bg-line sm:block" aria-hidden="true" />
-          <span className="hidden truncate text-sm font-medium text-muted sm:inline">Manage Booking</span>
+          <span className="min-w-0 text-sm font-semibold sm:truncate sm:text-base">{profile.role}</span>
+          <span className="hidden h-5 w-px shrink-0 bg-header-ink/40 sm:block" aria-hidden="true" />
+          <span className="hidden truncate text-sm text-header-ink/80 sm:inline">Manage Booking</span>
         </Link>
         <button
           type="button"
           onClick={toggleTheme}
           aria-label={nextLabel}
-          className="inline-flex size-10 items-center justify-center rounded-full border border-line bg-card text-ink"
+          className="inline-flex size-9 items-center justify-center rounded-md border border-header-ink/50 text-header-ink"
         >
-          {theme === "dark" ? (
-            <SunIcon className="size-5" />
-          ) : (
-            <MoonIcon className="size-5" />
-          )}
+          {theme === "dark" ? <SunIcon className="size-4" /> : <MoonIcon className="size-4" />}
         </button>
       </div>
     </header>

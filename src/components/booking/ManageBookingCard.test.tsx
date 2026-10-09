@@ -34,7 +34,7 @@ describe("Manage booking tiles", () => {
   it("does nothing when a disabled tile is clicked", () => {
     renderCard();
 
-    for (const name of ["Change Flight", "Cancel Flight"]) {
+    for (const name of ["Change flight", "Cancel flight"]) {
       const tile = screen.getByRole("button", { name });
       expect(tile).toBeDisabled();
       expect(tile).toHaveAttribute("aria-disabled", "true");
@@ -48,7 +48,7 @@ describe("Manage booking tiles", () => {
   it("opens the boarding pass in the same tab on a phone", () => {
     mockMatchMedia(true);
     renderCard();
-    const link = screen.getByRole("link", { name: "See Boarding Pass" });
+    const link = screen.getByRole("link", { name: "See boarding pass" });
     expect(link).toHaveAttribute("href", "/boarding-pass");
     expect(link).not.toHaveAttribute("target");
   });
@@ -73,11 +73,11 @@ describe("Manage booking tiles", () => {
     const user = userEvent.setup();
     renderCard();
 
-    await user.click(screen.getByRole("button", { name: /select add-on/i }));
+    await user.click(screen.getAllByRole("button", { name: /select add-on/i })[0]);
 
     const dialog = screen.getByRole("dialog", { name: /select add-ons/i });
     expect(dialog).not.toHaveTextContent("Tap +");
-    const readMore = screen.getAllByRole("link", { name: "Read More here." });
+    const readMore = screen.getAllByRole("link", { name: /read more/i });
     expect(readMore).toHaveLength(2);
     for (const link of readMore) {
       expect(link).toHaveAttribute("href", profile.resumeViewUrl);
@@ -85,7 +85,7 @@ describe("Manage booking tiles", () => {
       expect(link).not.toHaveAttribute("download");
       expect(link.getAttribute("href")).not.toContain("export=download");
     }
-    expect(dialog).toHaveTextContent("Include with your fare");
+    expect(dialog).toHaveTextContent("Included with your fare");
     expect(dialog).not.toHaveTextContent("Senior Backend Engineer");
     expect(dialog).toHaveTextContent("30 Bookings automated in last 10min!");
     expect(dialog).toHaveTextContent("100–200 flights already subscribed!");
@@ -97,17 +97,17 @@ describe("Manage booking tiles", () => {
 
     await user.click(screen.getByRole("button", { name: "Cancel" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(screen.queryByText("ADD-ONS ON THIS BOOKING")).not.toBeInTheDocument();
+    expect(screen.queryByText("Added")).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: /select add-on/i }));
+    await user.click(screen.getAllByRole("button", { name: /select add-on/i })[0]);
     await user.click(screen.getAllByRole("button", { name: "Add +" })[0]);
     await user.click(screen.getByRole("button", { name: "Add +" }));
     await user.click(screen.getByRole("button", { name: "Confirm" }));
 
-    expect(screen.getByText("ADD-ONS ON THIS BOOKING")).toBeInTheDocument();
+    expect(screen.getAllByText("Added")).toHaveLength(2);
     expect(screen.getByText("Booking Pending Confirmation")).toBeInTheDocument();
     expect(screen.getByText("Live Flight Alerts")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /select add-on/i })).toHaveTextContent("2 added");
-    expect(screen.getByRole("status")).toHaveTextContent("2 add-ons added to OISHIK");
+    expect(screen.getByRole("status")).toHaveTextContent("2 add-ons added to PNR OISHIK");
   });
 });

@@ -2,6 +2,7 @@ export type Addon = {
   id: string;
   title: string;
   subtitle: string;
+  summary: string;
   icon: string;
   was: string;
   proof: string;
@@ -15,6 +16,7 @@ export const addons: Addon[] = [
     id: "pending-confirmation",
     title: "Booking Pending Confirmation",
     subtitle: "Event-Driven Automated Booking Pending Confirmation",
+    summary: "Get your booking confirmed automatically, even when the airline responds late.",
     icon: "/icons/pending.png",
     was: "INR 120",
     proof: "30 Bookings automated in last 10min!",
@@ -35,6 +37,7 @@ export const addons: Addon[] = [
     id: "live-flight-alerts",
     title: "Live Flight Alerts",
     subtitle: "Real-time flight updates, straight to WhatsApp",
+    summary: "Get real-time flight status updates on WhatsApp.",
     icon: "/icons/flight-status.png",
     was: "INR 50",
     proof: "100–200 flights already subscribed!",

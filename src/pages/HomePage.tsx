@@ -2,10 +2,9 @@ import { type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { profile } from "../config/profile";
 import { ArrowRightIcon } from "../components/icons";
-import { BrandIcon } from "../components/BrandIcon";
 
-const lockedField =
-  "mt-1.5 w-full cursor-default rounded-xl border border-line bg-input px-4 py-2.5 text-ink outline-none";
+const field =
+  "w-full bg-transparent text-base font-semibold text-ink outline-none";
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -16,52 +15,33 @@ export function HomePage() {
   }
 
   return (
-    <div className="flex w-full flex-col">
-      <section className="shrink-0 bg-hero text-left text-ink">
-        <div className="px-5 pt-5 pb-10 sm:px-8 lg:px-12">
-          <p className="text-xs font-semibold tracking-[0.16em] text-hero-muted sm:text-sm">
-            {profile.role.toUpperCase()} · MANAGE BOOKING
-          </p>
-          <h1 className="font-display mt-2 max-w-3xl text-4xl text-display sm:text-6xl">
-            Manage your booking
-          </h1>
-          <p className="mt-2 max-w-xl text-sm leading-relaxed text-hero-muted sm:text-base">
-            Retrieve your booking to view flight details, fare benefits and passenger
-            information, or check in for your flight.
-          </p>
-        </div>
-      </section>
+    <div className="flex flex-1 flex-col bg-surface">
+      <div className="w-full px-5 pt-10 pb-16 sm:px-8 sm:pt-16 lg:px-12 lg:pt-20">
+        <h1 className="max-w-4xl font-display text-5xl leading-none text-display sm:text-7xl">
+          Manage your booking
+        </h1>
+        <p className="mt-5 max-w-xl text-base leading-relaxed text-ink">
+          Retrieve your booking to see flight details, fare benefits and add-ons, or check in for
+          your flight.
+        </p>
 
-      <div className="mx-auto -mt-10 w-full max-w-md px-4">
         <form
           onSubmit={onSubmit}
-          className="rounded-3xl border border-line bg-card p-4 shadow-[0_16px_40px_rgba(23,21,43,0.08)] sm:p-5 dark:shadow-[0_16px_40px_rgba(0,0,0,0.35)]"
+          className="mt-6 flex max-w-3xl flex-col border border-ink/25 bg-card sm:flex-row"
         >
-          <h2 className="flex items-center gap-3 text-base font-semibold">
-            <span className="inline-flex size-9 items-center justify-center rounded-xl bg-brand-soft text-brand">
-              <BrandIcon src="/icons/ticket.png" />
-            </span>
-            Retrieve booking
-          </h2>
-
-          <div className="mt-4">
-            <label htmlFor="pnr" className="text-sm font-medium">
-              PNR / Booking reference
-            </label>
+          <label className="min-w-0 flex-1 border-b border-ink/15 px-3 py-2 sm:border-r sm:border-b-0">
+            <span className="block text-[11px] text-muted">Booking reference (PNR)</span>
             <input
               id="pnr"
               name="booking-reference"
               value={profile.pnr}
               readOnly
               tabIndex={-1}
-              className={`font-semibold tracking-wide uppercase ${lockedField}`}
+              className={`${field} uppercase tabular-nums`}
             />
-          </div>
-
-          <div className="mt-4">
-            <label htmlFor="email" className="text-sm font-medium">
-              Email address
-            </label>
+          </label>
+          <label className="min-w-0 flex-[1.4] border-b border-ink/15 px-3 py-2 sm:border-r sm:border-b-0">
+            <span className="block text-[11px] text-muted">Email address</span>
             <input
               id="email"
               name="traveller-contact"
@@ -69,20 +49,18 @@ export function HomePage() {
               value={profile.email}
               readOnly
               tabIndex={-1}
-              className={lockedField}
+              className={field}
             />
-          </div>
-
+          </label>
           <button
             type="submit"
-            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-btn px-4 py-3 font-semibold text-btn-text"
+            className="inline-flex items-center justify-center gap-2 bg-btn px-6 py-4 font-semibold text-btn-text"
           >
             View Booking
             <ArrowRightIcon className="size-4" />
           </button>
-
-          <p className="mt-2 text-xs text-muted">Your PNR is the 6-character code on your e-ticket.</p>
         </form>
+        <p className="mt-3 text-sm text-ink/80">Your PNR is the 6-character code on your e-ticket.</p>
       </div>
     </div>
   );

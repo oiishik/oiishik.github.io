@@ -2,19 +2,21 @@
  * Departure, arrival, duration, and boarding time for the booking and the
  * boarding pass. Both screens call this so the dates always match.
  *
- * The duration stays 1h 30m. Departure is 30 minutes after the visit, in
- * Asia/Kolkata, and arrival is one duration later. Either clock can fall on
- * the next calendar day. The aircraft leaves the gate 5 minutes after
- * departure. Boarding is 45 minutes before departure.
+ * Departure is 15 minutes after the visit, in Asia/Kolkata. Arrival is 1h 30m
+ * after that scheduled departure. Either clock can fall on the next calendar
+ * day. The aircraft leaves the gate 2 minutes 30 seconds after departure, and
+ * the rest of the 1h 30m is in the air. The landed state stays for 15 minutes,
+ * then the saved flight is dropped so the next read starts a new one. Boarding
+ * is 45 minutes before departure.
  */
 
-const DEPARTURE_LEAD_MS = 30 * 60 * 1000;
+const DEPARTURE_LEAD_MS = 15 * 60 * 1000;
 const DURATION_MINUTES = 1 * 60 + 30;
 const DURATION_MS = DURATION_MINUTES * 60 * 1000;
-/** The aircraft stays at the gate for 5 minutes after the scheduled departure. */
-export const READY_WINDOW_MS = 5 * 60 * 1000;
-/** Keep a finished flight so a later visit can still see that it landed. */
-const KEEP_AFTER_LANDING_MS = 30 * 60 * 1000;
+/** The aircraft stays at the gate for 2 minutes 30 seconds after departure. */
+export const READY_WINDOW_MS = 2 * 60 * 1000 + 30 * 1000;
+/** Keep the landed flight briefly, then drop it so the next read starts again. */
+const KEEP_AFTER_LANDING_MS = 15 * 60 * 1000;
 const FLIGHT_STORAGE_KEY = "sde-flight-departure";
 
 export type FlightPhase = "countdown" | "ready" | "departed" | "landed";

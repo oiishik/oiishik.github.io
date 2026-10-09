@@ -37,7 +37,7 @@ describe("FlightStatus", () => {
   it("counts down to landing while the aircraft is airborne", () => {
     vi.useFakeTimers();
     const departureAt = Date.parse("2026-10-08T15:00:00Z");
-    const airborneAt = departureAt + 5 * 60 * 1000;
+    const airborneAt = departureAt + (2 * 60 + 30) * 1000;
     vi.setSystemTime(new Date(airborneAt));
 
     render(<FlightStatus itinerary={itineraryFromDeparture(departureAt)} />);
@@ -56,7 +56,7 @@ describe("FlightStatus", () => {
 
     expect(
       screen.getByText(
-        `Flight landed in Pune · On time · Arrived ${itinerary.arrival.time} · PNQ · Baggage Belt: 5`,
+        `Flight landed in Pune · Arrived ${itinerary.arrival.time} · PNQ`,
       ),
     ).toBeInTheDocument();
   });

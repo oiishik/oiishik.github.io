@@ -4,7 +4,7 @@ import { SiteHeader } from "./SiteHeader";
 
 export function SiteShell() {
   return (
-    <div className="flex h-dvh w-full flex-col overflow-hidden bg-surface text-ink">
+    <div className="flex h-dvh w-full flex-col overflow-hidden bg-page text-ink">
       <SiteHeader />
       <main className="flex min-h-0 w-full flex-1 flex-col overflow-y-auto">
         <PageTransition />

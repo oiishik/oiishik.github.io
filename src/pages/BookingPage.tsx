@@ -4,8 +4,9 @@ import { useGSAP } from "@gsap/react";
 import { profile } from "../config/profile";
 import { FlightStatus } from "../components/booking/FlightStatus";
 import { BookingCardSkeleton } from "../components/booking/BookingSkeleton";
-import { bookingCards, cardSpanClass } from "../components/booking/cards";
 import { FlightDetailsCard } from "../components/booking/FlightDetailsCard";
+import { ManageBookingCard } from "../components/booking/ManageBookingCard";
+import { CurrentIcon } from "../components/BrandIcon";
 import { CheckIcon } from "../components/icons";
 import { rememberItinerary, type Itinerary } from "../lib/itinerary";
 import { motionEnabled } from "../lib/motion";
@@ -41,24 +42,7 @@ function CopyPnrButton() {
       aria-label={copied ? "Copied" : "Copy booking reference"}
       className="inline-flex items-center justify-center p-1 text-display"
     >
-      {copied ? (
-        <CheckIcon className="size-3.5" />
-      ) : (
-        <span
-          aria-hidden="true"
-          className="block size-3.5 bg-current"
-          style={{
-            maskImage: "url(/icons/copy.png)",
-            WebkitMaskImage: "url(/icons/copy.png)",
-            maskSize: "contain",
-            WebkitMaskSize: "contain",
-            maskRepeat: "no-repeat",
-            WebkitMaskRepeat: "no-repeat",
-            maskPosition: "center",
-            WebkitMaskPosition: "center",
-          }}
-        />
-      )}
+      {copied ? <CheckIcon className="size-4" /> : <CurrentIcon src="/icons/copy.png" />}
     </button>
   );
 }
@@ -66,7 +50,7 @@ function CopyPnrButton() {
 export function BookingPage() {
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);
   const ready = itinerary !== null;
-  const cards = useRef<HTMLDivElement>(null);
+  const page = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -78,7 +62,7 @@ export function BookingPage() {
         ease: "power2.out",
       });
     },
-    { dependencies: [ready], scope: cards },
+    { dependencies: [ready], scope: page },
   );
 
   useEffect(() => {
@@ -89,48 +73,49 @@ export function BookingPage() {
     return () => window.clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (!itinerary) return;
+    const timer = window.setInterval(() => {
+      const next = rememberItinerary();
+      setItinerary((current) => (current && current.departureAt === next.departureAt ? current : next));
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [itinerary]);
+
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 sm:py-10">
-      <p className="text-xs font-semibold tracking-[0.16em] text-muted">BOOKING REFERENCE</p>
-      <div className="mt-2 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="relative inline-block pr-6">
-              <h1 className="font-display text-4xl text-display sm:text-5xl">{profile.pnr}</h1>
-              <div className="absolute top-0 right-0">
-                <CopyPnrButton />
-              </div>
+    <div ref={page}>
+      <div className="bg-surface">
+        <div className="mx-auto max-w-6xl px-5 pt-6 pb-6 sm:px-8 lg:px-12">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex items-start gap-1">
+              <h1 className="font-display text-6xl leading-none text-display tabular-nums sm:text-7xl">{profile.pnr}</h1>
+              <CopyPnrButton />
             </div>
-            <p className="inline-flex items-center gap-1 rounded-full bg-ok-bg px-3 py-1 text-sm font-semibold text-ok-ink">
-              <CheckIcon className="size-4" />
-              {profile.status}
+            <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
+              <span className="inline-flex items-center gap-1 rounded-sm bg-ok-bg px-2 py-0.5 text-xs font-semibold text-ok-ink">
+                <CheckIcon className="size-3.5" />
+                {profile.status}
+              </span>
+              <span>
+                {profile.origin.code} → {profile.destination.code}
+              </span>
+              {itinerary ? <span className="tabular-nums">{itinerary.departureLabel}</span> : null}
+              <span>1 {profile.passengerType}</span>
             </p>
           </div>
-          <p className="mt-2 text-sm text-muted">
-            {profile.origin.code} → {profile.destination.code}
-            {itinerary ? ` · ${itinerary.departureLabel}` : ""} · 1 {profile.passengerType}
-          </p>
+          {itinerary ? <FlightStatus itinerary={itinerary} /> : null}
         </div>
       </div>
 
-      {itinerary ? <FlightStatus itinerary={itinerary} /> : null}
-
-      <div ref={cards} className="mt-6 grid gap-4 lg:grid-cols-5" aria-busy={!ready}>
-        {bookingCards.map(({ id, span, Component }) => (
-          <div key={id} className={cardSpanClass(span)}>
-            {ready ? (
-              <div data-booking-card>
-                {id === "flight" && itinerary ? (
-                  <FlightDetailsCard itinerary={itinerary} />
-                ) : (
-                  <Component />
-                )}
-              </div>
-            ) : (
-              <BookingCardSkeleton id={id} />
-            )}
+      <div className="mx-auto max-w-6xl px-5 pb-12 sm:px-8 lg:px-12" aria-busy={!ready}>
+        {ready && itinerary ? (
+          <div data-booking-card>
+            <FlightDetailsCard itinerary={itinerary} />
+            <ManageBookingCard />
           </div>
-        ))}
+        ) : (
+          <BookingCardSkeleton id="flight" />
+        )}
       </div>
     </div>
   );

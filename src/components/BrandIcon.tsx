@@ -18,10 +18,29 @@ export function BrandIcon({
   return <img src={src} alt="" className={`object-contain ${toneClass[tone]} ${className}`} />;
 }
 
+export function CurrentIcon({ src, className = "size-4" }: { src: string; className?: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`inline-block shrink-0 bg-current ${className}`}
+      style={{
+        maskImage: `url(${src})`,
+        WebkitMaskImage: `url(${src})`,
+        maskSize: "contain",
+        WebkitMaskSize: "contain",
+        maskRepeat: "no-repeat",
+        WebkitMaskRepeat: "no-repeat",
+        maskPosition: "center",
+        WebkitMaskPosition: "center",
+      }}
+    />
+  );
+}
+
 export function SdeMark({ className = "size-8" }: { className?: string }) {
   return (
-    <span className={`inline-flex shrink-0 items-center justify-center rounded-lg bg-brand ${className}`}>
-      <BrandIcon src="/icons/plane.png" tone="on-fill" className="size-[62%]" />
+    <span className={`inline-flex shrink-0 items-center justify-center rounded-sm bg-white text-brand ${className}`}>
+      <CurrentIcon src="/icons/plane.png" className="size-4" />
     </span>
   );
 }

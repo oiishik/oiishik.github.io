@@ -1,47 +1,104 @@
+import type { ReactNode } from "react";
 import { profile } from "../../config/profile";
-import { BrandIcon } from "../BrandIcon";
-import { CheckIcon } from "../icons";
+import { CurrentIcon } from "../BrandIcon";
+import { TicketIcon } from "../icons";
+
+type Skill = { name: string; icon?: string; wide?: boolean };
+
+const stack: { label: string; items: Skill[] }[] = [
+  {
+    label: "Languages",
+    items: [
+      { name: "TypeScript", icon: "/logos/typescript.png" },
+      { name: "Java", icon: "/logos/java.png" },
+    ],
+  },
+  {
+    label: "Frameworks",
+    items: [
+      { name: "Node.js", icon: "/logos/nodejs.png" },
+      { name: "React", icon: "/logos/react.png" },
+      { name: "Spring Boot", icon: "/logos/spring-boot.png" },
+    ],
+  },
+  {
+    label: "Cloud",
+    items: [
+      { name: "AWS", icon: "/logos/aws.png", wide: true },
+      { name: "Docker", icon: "/logos/docker.png" },
+    ],
+  },
+  {
+    label: "Databases",
+    items: [
+      { name: "MySQL", icon: "/logos/mysql.png" },
+      { name: "Postgres", icon: "/logos/postgres.png" },
+      { name: "Redis", icon: "/logos/redis.png" },
+      { name: "DynamoDB", icon: "/logos/dynamodb.png" },
+    ],
+  },
+  {
+    label: "Tools",
+    items: [
+      { name: "Git", icon: "/logos/git.png" },
+      { name: "GitHub", icon: "/logos/github.png" },
+      { name: "Jira", icon: "/logos/jira.png" },
+    ],
+  },
+];
+
+function Row({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="grid grid-cols-[7.5rem_minmax(0,1fr)] items-center gap-3 border-b border-line py-2.5 sm:grid-cols-[9rem_minmax(0,1fr)]">
+      <dt className="text-sm text-muted">{label}</dt>
+      <dd className="font-semibold">{children}</dd>
+    </div>
+  );
+}
 
 export function FareBenefitsCard() {
   return (
-    <section className="flex h-full flex-col rounded-3xl bg-fare p-4 text-fare-ink shadow-[0_10px_30px_rgba(58,43,184,0.25)] sm:p-6">
-      <p className="text-xs font-semibold tracking-[0.16em] text-fare-muted">FARE & BENEFITS</p>
-      <h2 className="font-display mt-2 text-3xl sm:text-4xl">{profile.fareBrand}</h2>
-
-      <div className="mt-5 grid grid-cols-2 gap-3">
-        <div className="rounded-2xl bg-white/12 px-3 py-4">
-          <BrandIcon src="/icons/luggage.png" tone="on-fill" />
-          <p className="mt-3 text-lg font-bold">{profile.baggage.checkIn}</p>
-          <p className="text-sm text-fare-muted">Check-in baggage</p>
-        </div>
-        <div className="rounded-2xl bg-white/12 px-3 py-4">
-          <BrandIcon src="/icons/luggage-cabin.png" tone="on-fill" />
-          <p className="mt-3 text-lg font-bold">{profile.baggage.cabin}</p>
-          <p className="text-sm text-fare-muted">Cabin baggage</p>
-        </div>
+    <section className="pt-8">
+      <div className="flex items-end justify-between gap-3 border-b border-ink pb-2">
+        <h2 className="flex items-center gap-2 text-base font-semibold">
+          <TicketIcon className="size-4" />
+          Fare benefits
+        </h2>
+        <p className="text-xs text-muted">Tech stack</p>
       </div>
-
-      <h3 className="mt-6 text-sm font-semibold">Fare Benefits Include</h3>
-      <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-        {profile.fareBenefits.map((benefit) => (
-          <li key={benefit.label} className="flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-3">
-            <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-fare-mark">
-              <img
-                src={benefit.logo}
-                alt=""
-                className="size-5 object-contain brightness-0 invert"
-              />
+      <dl className="mt-1">
+        <Row label="Brand">{profile.fareBrand}</Row>
+        <Row label="Baggage">
+          <span className="flex flex-wrap items-center gap-x-5 gap-y-1">
+            <span className="inline-flex items-center gap-2">
+              <CurrentIcon src="/icons/luggage.png" />
+              Check-in <span className="tabular-nums">{profile.baggage.checkIn}</span>
             </span>
-            <span className="min-w-0 flex-1">
-              <span className="block text-[10px] font-semibold tracking-[0.14em] text-fare-muted">
-                {benefit.category}
-              </span>
-              <span className="block text-sm font-semibold leading-snug">{benefit.label}</span>
+            <span className="inline-flex items-center gap-2">
+              <CurrentIcon src="/icons/luggage-cabin.png" />
+              Cabin <span className="tabular-nums">{profile.baggage.cabin}</span>
             </span>
-            <CheckIcon className="size-5 shrink-0 text-fare-ink" />
-          </li>
+          </span>
+        </Row>
+        {stack.map(({ label, items }) => (
+          <Row key={label} label={label}>
+            <span className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+              {items.map((item) => (
+                <span key={item.name} className="inline-flex items-center gap-1.5">
+                  {item.icon ? (
+                    <img
+                      src={item.icon}
+                      alt=""
+                      className={`${item.wide ? "h-4 w-7" : "size-4"} shrink-0 object-contain dark:invert`}
+                    />
+                  ) : null}
+                  {item.name}
+                </span>
+              ))}
+            </span>
+          </Row>
         ))}
-      </ul>
+      </dl>
     </section>
   );
 }

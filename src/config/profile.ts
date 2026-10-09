@@ -26,7 +26,7 @@ export const profile = {
     { category: "TYPESCRIPT", label: "Node.js, React.js", logo: "/logos/nodejs.png" },
     { category: "JAVA", label: "Java, Spring Boot", logo: "/logos/java.png" },
     { category: "CLOUD", label: "AWS, Docker", logo: "/logos/cloud.png" },
-    { category: "DATABASE", label: "MySQL, Postgres, Redis", logo: "/logos/database.png" },
+    { category: "DATABASE", label: "MySQL, Postgres, Redis, DynamoDB", logo: "/logos/database.png" },
     { category: "GIT", label: "GitHub", logo: "/logos/github.png" },
     { category: "SCRUM", label: "Jira", logo: "/logos/jira.png" },
   ],

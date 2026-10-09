@@ -4,65 +4,71 @@
 
 :root {
   --surface: #f3c1c0;
-  --header: #fff8f7;
-  --card: #fff8f7;
-  --ink: #7c2d1a;
-  --muted: #8f3018;
-  --line: #e7b0ad;
+  --page: #fffaf8;
+  --header: #c4472c;
+  --header-ink: #fffaf8;
+  --card: #ffffff;
+  --ink: #2a1814;
+  --muted: #8d5c54;
+  --line: #eadfdc;
   --display: #c4472c;
   --hero: #f3c1c0;
-  --hero-muted: #8f3018;
+  --hero-muted: #2a1814;
   --brand: #c4472c;
   --brand-soft: #fbe6e4;
   --btn: #c4472c;
-  --btn-text: #fff8f6;
-  --chip: #fbe6e4;
-  --input: #fff8f7;
+  --btn-text: #fffaf8;
+  --chip: #fffaf8;
+  --input: #ffffff;
   --fare: #c4472c;
-  --fare-ink: #fff8f6;
+  --fare-ink: #fffaf8;
   --fare-muted: #ffd8cc;
   --fare-mark: #8f3018;
   --track: #fbe6e4;
   --danger: #8f1d3a;
-  --ok-bg: #fff1ea;
-  --ok-ink: #8f3018;
-  --live: #c4472c;
+  --good: #1b7a43;
+  --ok-bg: #1b7a43;
+  --ok-ink: #ffffff;
+  --live: #1b7a43;
   --landed: #e5f6ea;
   --landed-ink: #1b7a43;
-  --toast: #c4472c;
-  --toast-ink: #fff8f6;
+  --toast: #2a1814;
+  --toast-ink: #fffaf8;
   color-scheme: light;
 }
 
 .dark {
-  --surface: #434250;
-  --header: #3a3846;
-  --card: #4e4c5c;
-  --ink: #efe6fb;
-  --muted: #c3b6d6;
-  --line: #5e5b6e;
-  --display: #ceb0f0;
-  --hero: #3a3846;
-  --hero-muted: #c3b6d6;
-  --brand: #ceb0f0;
-  --brand-soft: #3a3848;
-  --btn: #ceb0f0;
-  --btn-text: #2a2836;
-  --chip: #3a3848;
-  --input: #3a3848;
-  --fare: #ceb0f0;
-  --fare-ink: #2a2836;
+  --surface: #2b2421;
+  --page: #211c1a;
+  --header: #272120;
+  --header-ink: #f6efe9;
+  --card: #2b2421;
+  --ink: #f3ebe6;
+  --muted: #b0a098;
+  --line: #3d3532;
+  --display: #e8907a;
+  --hero: #2b2421;
+  --hero-muted: #f3ebe6;
+  --brand: #e8907a;
+  --brand-soft: #3a302c;
+  --btn: #e8907a;
+  --btn-text: #2a1814;
+  --chip: #2b2421;
+  --input: #211c1a;
+  --fare: #e8907a;
+  --fare-ink: #2a1814;
   --fare-muted: #4a4560;
-  --fare-mark: #3a3848;
-  --track: #3a3848;
+  --fare-mark: #3a302c;
+  --track: #3a302c;
   --danger: #ffd0d6;
-  --ok-bg: #2a3a44;
-  --ok-ink: #89e3fe;
-  --live: #89e3fe;
+  --good: #7dcea0;
+  --ok-bg: #1f7a45;
+  --ok-ink: #ffffff;
+  --live: #7dcea0;
   --landed: #1a3328;
   --landed-ink: #8ddeb4;
-  --toast: #2a2836;
-  --toast-ink: #ceb0f0;
+  --toast: #f3ebe6;
+  --toast-ink: #211c1a;
   color-scheme: dark;
 }
 
@@ -70,7 +76,9 @@
   --font-sans: "Montserrat", "Segoe UI", sans-serif;
   --font-display: "Anton", "Montserrat", sans-serif;
   --color-surface: var(--surface);
+  --color-page: var(--page);
   --color-header: var(--header);
+  --color-header-ink: var(--header-ink);
   --color-card: var(--card);
   --color-ink: var(--ink);
   --color-display: var(--display);
@@ -89,6 +97,7 @@
   --color-fare-muted: var(--fare-muted);
   --color-track: var(--track);
   --color-danger: var(--danger);
+  --color-good: var(--good);
   --color-ok-bg: var(--ok-bg);
   --color-ok-ink: var(--ok-ink);
   --color-live: var(--live);
@@ -112,7 +121,7 @@ body {
 
 body {
   margin: 0;
-  background: var(--surface);
+  background: var(--page);
   color: var(--ink);
   font-family: var(--font-sans);
 }

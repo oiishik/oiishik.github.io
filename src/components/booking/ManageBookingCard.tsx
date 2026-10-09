@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { addons } from "../../config/addons";
 import { profile } from "../../config/profile";
-import { BrandIcon } from "../BrandIcon";
-import { CheckIcon } from "../icons";
+import { CurrentIcon } from "../BrandIcon";
+import { FareBenefitsCard } from "./FareBenefitsCard";
+import { PassengerDetailsCard } from "./PassengerDetailsCard";
 import { AddonDialog } from "./AddonDialog";
-
-const tileClass =
-  "relative flex min-h-28 flex-col items-center justify-center gap-2 rounded-2xl border border-line bg-chip px-3 py-4 text-center text-sm font-semibold text-ink";
+import { ArrowRightIcon, DownloadIcon, GearIcon } from "../icons";
 
 const MOBILE_LAYOUT = "(max-width: 639px)";
 
@@ -28,11 +27,57 @@ function useMobileLayout() {
   return mobile;
 }
 
-function DisabledTile({ label, src }: { label: string; src: string }) {
+function Row({
+  icon,
+  label,
+  meta,
+  disabled,
+  onClick,
+  href,
+  download,
+  external,
+}: {
+  icon: ReactNode;
+  label: string;
+  meta: string;
+  disabled?: boolean;
+  onClick?: () => void;
+  href?: string;
+  download?: boolean;
+  external?: boolean;
+}) {
+  const className = `flex w-full items-center gap-3 border-b border-line py-3 text-left text-sm ${
+    disabled ? "cursor-not-allowed text-muted" : "hover:text-brand"
+  }`;
+  const body = (
+    <>
+      <span className="text-muted">{icon}</span>
+      <span className="flex-1 font-semibold">{label}</span>
+      <span className="text-muted" aria-hidden="true">
+        {meta}
+      </span>
+    </>
+  );
+
+  if (href) {
+    if (href.startsWith("/")) {
+      return (
+        <Link to={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined} className={className}>
+          {body}
+          {external ? <span className="sr-only"> (opens in a new tab)</span> : null}
+        </Link>
+      );
+    }
+    return (
+      <a href={href} download={download || undefined} className={className}>
+        {body}
+      </a>
+    );
+  }
+
   return (
-    <button type="button" className={`${tileClass} cursor-not-allowed opacity-45`} disabled aria-disabled="true">
-      <BrandIcon src={src} />
-      {label}
+    <button type="button" className={className} onClick={onClick} disabled={disabled} aria-disabled={disabled || undefined}>
+      {body}
     </button>
   );
 }
@@ -65,65 +110,99 @@ export function ManageBookingCard() {
     setToastCount(draft.length);
   }
 
-  const chosen = addons.filter((addon) => confirmed.includes(addon.id));
+  const addedCount = confirmed.length;
+  const manageMeta = addedCount > 0 ? `${addedCount} added` : `${addons.length} included`;
 
   return (
-    <section className="rounded-3xl border border-line bg-card p-4 shadow-[0_10px_30px_rgba(23,21,43,0.06)] sm:p-6 dark:shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
-      <h2 className="flex items-center gap-3 text-base font-semibold">
-        <span className="inline-flex size-9 items-center justify-center rounded-xl bg-brand-soft text-brand">
-          <BrandIcon src="/icons/setting.png" />
-        </span>
-        Manage booking
-      </h2>
+    <div className="grid gap-x-12 lg:grid-cols-2">
+      <FareBenefitsCard />
 
-      <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-6">
-        <DisabledTile label="Change Flight" src="/icons/transport.png" />
-        <DisabledTile label="Cancel Flight" src="/icons/cancelled.png" />
-        <button type="button" className={`${tileClass} hover:border-brand`} onClick={openDialog}>
-          {chosen.length > 0 ? (
-            <span className="absolute top-2 right-2 rounded-full bg-brand px-2 py-0.5 text-[10px] font-semibold text-btn-text">
-              {chosen.length} added
-            </span>
-          ) : null}
-          <BrandIcon src="/icons/add-on.png" />
-          Select Add-on
-        </button>
-        <Link
-          to="/boarding-pass"
-          target={mobile ? undefined : "_blank"}
-          rel={mobile ? undefined : "noopener noreferrer"}
-          className={`${tileClass} hover:border-brand`}
-        >
-          <BrandIcon src="/icons/boarding-pass.png" />
-          See Boarding Pass
-          {mobile ? null : <span className="sr-only"> (opens in a new tab)</span>}
-        </Link>
-        <a className={`${tileClass} hover:border-brand`} href={profile.resumePath} download>
-          <BrandIcon src="/icons/ticket.png" />
-          Download E-ticket
-        </a>
-        <a className={`${tileClass} hover:border-brand`} href={`mailto:${profile.email}`}>
-          <BrandIcon src="/icons/customer-service.png" />
-          Contact Support
-        </a>
-      </div>
-
-      {chosen.length > 0 ? (
-        <div className="mt-4 border-t border-line pt-4">
-          <p className="text-[11px] font-semibold tracking-[0.14em] text-muted">ADD-ONS ON THIS BOOKING</p>
-          <ul className="mt-2 flex flex-wrap gap-2">
-            {chosen.map((addon) => (
-              <li
-                key={addon.id}
-                className="inline-flex items-center gap-1.5 rounded-full bg-ok-bg px-3 py-1 text-sm font-medium text-ok-ink"
-              >
-                <CheckIcon className="size-3.5" />
-                {addon.title}
-              </li>
-            ))}
-          </ul>
+      <section className="pt-8">
+        <div className="flex items-end justify-between gap-3 border-b border-ink pb-2">
+          <h2 className="flex items-center gap-2 text-base font-semibold">
+            <CurrentIcon src="/icons/add-on.png" />
+            Add-ons
+          </h2>
+          <p className="text-xs text-muted">Projects</p>
         </div>
-      ) : null}
+        <ul className="mt-1">
+          {addons.map((addon) => {
+            const added = confirmed.includes(addon.id);
+            return (
+              <li key={addon.id} className="border-b border-line py-4">
+                <div className="flex items-start justify-between gap-3">
+                  <p className="font-semibold">
+                    {addon.title}
+                    {added ? (
+                      <span className="ml-2 inline-flex items-center rounded-sm bg-good px-1.5 py-0.5 text-[11px] font-semibold text-white">
+                        Added
+                      </span>
+                    ) : null}
+                  </p>
+                  <button type="button" className="shrink-0 text-sm font-semibold text-brand" onClick={openDialog}>
+                    Details →
+                  </button>
+                </div>
+                <p className="mt-1 text-sm text-muted">{addon.summary}</p>
+                <p className="mt-2 text-sm">
+                  <span className="text-muted line-through">{addon.was}</span>{" "}
+                  <span className="font-semibold text-good">FREE</span>{" "}
+                  <span className="text-muted">Included with your fare</span>
+                </p>
+              </li>
+            );
+          })}
+        </ul>
+        <button
+          type="button"
+          onClick={openDialog}
+          className="mt-4 inline-flex items-center gap-2 rounded-md bg-btn px-4 py-2.5 text-sm font-semibold text-btn-text"
+        >
+          {addedCount > 0 ? "Manage add-ons" : "Select add-ons"}
+          <ArrowRightIcon className="size-4" />
+        </button>
+      </section>
+
+      <PassengerDetailsCard />
+
+      <section className="pt-8">
+        <div className="flex items-end justify-between gap-3 border-b border-ink pb-2">
+          <h2 className="flex items-center gap-2 text-base font-semibold">
+            <GearIcon className="size-4" />
+            Manage booking
+          </h2>
+        </div>
+        <div className="mt-1">
+          <Row icon={<CurrentIcon src="/icons/transport.png" />} label="Change flight" meta="Unavailable" disabled />
+          <Row icon={<CurrentIcon src="/icons/cancelled.png" />} label="Cancel flight" meta="Unavailable" disabled />
+          <Row
+            icon={<CurrentIcon src="/icons/add-on.png" />}
+            label="Select add-ons"
+            meta={`${manageMeta} ›`}
+            onClick={openDialog}
+          />
+          <Row
+            icon={<CurrentIcon src="/icons/boarding-pass.png" />}
+            label="See boarding pass"
+            meta="›"
+            href="/boarding-pass"
+            external={!mobile}
+          />
+          <Row
+            icon={<DownloadIcon className="size-4" />}
+            label="Download e-ticket"
+            meta="PDF ↓"
+            href={profile.resumePath}
+            download
+          />
+          <Row
+            icon={<CurrentIcon src="/icons/customer-service.png" />}
+            label="Contact support"
+            meta="Email ›"
+            href={`mailto:${profile.email}`}
+          />
+        </div>
+      </section>
 
       {open ? (
         <AddonDialog selected={draft} onToggle={toggle} onCancel={() => setOpen(false)} onConfirm={confirm} />
@@ -132,12 +211,11 @@ export function ManageBookingCard() {
       {toastCount > 0 ? (
         <p
           role="status"
-          className="fixed bottom-6 left-1/2 z-[60] inline-flex -translate-x-1/2 items-center gap-2 rounded-full bg-toast px-4 py-2.5 text-sm font-medium text-toast-ink shadow-lg"
+          className="fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 rounded-md bg-toast px-4 py-2 text-sm font-semibold text-toast-ink"
         >
-          <span className="live-dot size-2 rounded-full bg-live" aria-hidden="true" />
-          {toastCount} {toastCount === 1 ? "add-on" : "add-ons"} added to {profile.pnr}
+          {toastCount} {toastCount === 1 ? "add-on" : "add-ons"} added to PNR {profile.pnr}
         </p>
       ) : null}
-    </section>
+    </div>
   );
 }
