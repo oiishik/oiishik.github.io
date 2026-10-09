@@ -4,9 +4,12 @@ import { CurrentIcon } from "./BrandIcon";
 
 const pnrPath = /^\/trips\/[^/]+$/;
 
+/** Set to true to show Trips and View Booking in the navbar. The booking screen stays reachable from Manage Booking either way. */
+const tripsNavEnabled = false;
+
 export function accountLinks(pathname: string) {
   const onPnr = pnrPath.test(pathname);
-  return [
+  const links = [
     { to: "/", label: "Manage Booking", icon: "/icons/appointment.png", active: pathname === "/" },
     {
       to: onPnr ? pathname : `/trips/${profile.pnr}`,
@@ -17,6 +20,7 @@ export function accountLinks(pathname: string) {
     { to: "/trips", label: "Trips", icon: "/icons/travel-agency.png", active: pathname === "/trips" },
     { to: "/profile", label: "Profile", icon: "/icons/user.png", active: pathname === "/profile" },
   ];
+  return tripsNavEnabled ? links : links.filter((link) => link.label !== "Trips" && link.label !== "View Booking");
 }
 
 export function AccountNav() {
