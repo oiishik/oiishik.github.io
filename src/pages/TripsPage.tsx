@@ -18,6 +18,10 @@ function shortDay(label: string) {
   return label.replace(/\s+\d{4}$/, "").replace(/, 0(\d)/, ", $1");
 }
 
+function stopLabel(stops: readonly string[]) {
+  return stops.length === 0 ? "Non-stop" : `${stops.length} stops`;
+}
+
 function TripCard({
   title,
   status,
@@ -108,7 +112,7 @@ function TripCard({
 }
 
 function LiveCard({ itinerary, landed }: { itinerary: Itinerary; landed: boolean }) {
-  const stops = profile.stops.length === 0 ? "Non-stop" : `${profile.stops.length} stops`;
+  const stops = stopLabel(profile.stops);
   return (
     <TripCard
       title={`${profile.origin.city} → ${profile.destination.city}`}
