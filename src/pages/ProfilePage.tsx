@@ -4,12 +4,15 @@ import { linkedinLabel, profile } from "../config/profile";
 
 const tiers = ["Bronze", "Silver", "Gold", "Platinum"] as const;
 
-const benefits: { benefit: string; icon: string; gold: string; platinum: string }[] = [
-  { benefit: "Add-ons included with every fare", icon: "/icons/add-on.png", gold: "Included", platinum: "Included" },
-  { benefit: "Check-in baggage", icon: "/icons/luggage.png", gold: "15 kg", platinum: "25 kg" },
-  { benefit: "Priority boarding", icon: "/icons/ticket.png", gold: "Included", platinum: "Included" },
-  { benefit: "Lounge access", icon: "/icons/lounge.png", gold: "Not included", platinum: "Included" },
-  { benefit: "Free seat selection", icon: "/icons/seat.png", gold: "Not included", platinum: "Included" },
+const benefits: { benefit: string; value: string }[] = [
+  { benefit: "Experience", value: "4+ years" },
+  { benefit: "Industry", value: "Travel and airline tech" },
+  { benefit: "Languages", value: "TypeScript, JavaScript, Java" },
+  { benefit: "Backend Frameworks", value: "Node js, Nest js, Spring Boot" },
+  { benefit: "Frontend Frameworks", value: "React js, Next js" },
+  { benefit: "Database", value: "MySQL, Postgres, Dynamo DB, Redis" },
+  { benefit: "Monitoring", value: "Elasticsearch, Grafana, Kibana" },
+  { benefit: "System design", value: "HLD/LLD, event-driven architecture, SOLID Principle" },
 ];
 
 function Row({ label, children }: { label: string; children: ReactNode }) {
@@ -109,15 +112,8 @@ export function ProfilePage() {
                 <span className="text-muted"> / 8</span>
               </dd>
             </div>
-            <div className="flex items-baseline justify-between gap-3 border-b border-line py-2.5">
-              <dt className="text-sm text-muted">Flights taken</dt>
-              <dd className="font-semibold">
-                <span className="text-brand">4</span>
-                <span className="text-muted"> / 12</span>
-              </dd>
-            </div>
           </dl>
-          <p className="mt-3 text-sm text-muted">Platinum is 4 more years or 8 more flights away.</p>
+          <p className="mt-3 text-sm text-muted">Platinum is 4 more years away.</p>
         </section>
 
         <section className="min-w-0 pt-8 lg:col-span-2">
@@ -125,37 +121,27 @@ export function ProfilePage() {
             <CurrentIcon src="/icons/prize.png" />
             Tier benefits
           </h2>
-          <div className="min-w-0 overflow-x-auto">
-            <table className="mt-2 w-full min-w-[32rem] text-left text-sm">
-              <thead>
-                <tr className="border-b border-line">
-                  <th className="py-2 font-semibold">Benefit</th>
-                  <th className="py-2 font-semibold">
-                    Gold
-                    <span className="mt-0.5 block text-xs font-semibold text-brand">Current</span>
-                  </th>
-                  <th className="py-2 font-semibold">
-                    Platinum
-                    <span className="mt-0.5 block text-xs font-normal text-muted">Locked</span>
-                  </th>
+          <table className="mt-2 w-full text-left text-sm">
+            <thead>
+              <tr className="bg-tier-gold-bg text-tier-gold-text">
+                <th className="rounded-none border-t-2 border-tier-gold-line px-3 py-2 font-semibold">Benefit</th>
+                <th className="rounded-none border-t-2 border-tier-gold-line px-3 py-2 font-semibold">
+                  <span className="flex items-baseline justify-between gap-3">
+                    Full Stack Developer
+                    <span className="text-xs font-semibold">Current</span>
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {benefits.map((row) => (
+                <tr key={row.benefit} className="border-b border-line">
+                  <th className="px-3 py-2.5 pr-4 font-normal text-muted">{row.benefit}</th>
+                  <td className="px-3 py-2.5 font-semibold">{row.value}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {benefits.map((row) => (
-                  <tr key={row.benefit} className="border-b border-line">
-                    <th className="py-2.5 pr-4 font-normal text-muted">
-                      <span className="inline-flex items-center gap-2">
-                        <CurrentIcon src={row.icon} />
-                        {row.benefit}
-                      </span>
-                    </th>
-                    <td className="py-2.5 font-semibold">{row.gold}</td>
-                    <td className="py-2.5 font-semibold">{row.platinum}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </section>
       </div>
     </div>

@@ -34,6 +34,9 @@
   --landed-ink: #1b7a43;
   --toast: #2a1814;
   --toast-ink: #fffaf8;
+  --tier-gold-bg: #f6e7c4;
+  --tier-gold-text: #7a5313;
+  --tier-gold-line: #c9963a;
   color-scheme: light;
 }
 
@@ -69,6 +72,9 @@
   --landed-ink: #8ddeb4;
   --toast: #f3ebe6;
   --toast-ink: #211c1a;
+  --tier-gold-bg: #3a2f1e;
+  --tier-gold-text: #ebc56e;
+  --tier-gold-line: #c9963a;
   color-scheme: dark;
 }
 
@@ -106,6 +112,9 @@
   --color-toast: var(--toast);
   --color-toast-ink: var(--toast-ink);
   --color-fare-mark: var(--fare-mark);
+  --color-tier-gold-bg: var(--tier-gold-bg);
+  --color-tier-gold-text: var(--tier-gold-text);
+  --color-tier-gold-line: var(--tier-gold-line);
 }
 
 html,
