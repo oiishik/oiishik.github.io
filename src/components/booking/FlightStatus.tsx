@@ -8,6 +8,22 @@ import {
 } from "../../lib/itinerary";
 import { CurrentIcon } from "../BrandIcon";
 
+function RollingTime({ value }: { value: string }) {
+  return (
+    <span className="odo">
+      {value.split("").map((char, index) =>
+        char === ":" ? (
+          <span key={`sep-${index}`}>{char}</span>
+        ) : (
+          <span key={index} className={Number(char) % 2 ? "roll-b" : "roll-a"}>
+            {char}
+          </span>
+        ),
+      )}
+    </span>
+  );
+}
+
 function useNow() {
   const [now, setNow] = useState(() => Date.now());
 
@@ -46,7 +62,7 @@ export function FlightStatus({ itinerary }: { itinerary: Itinerary }) {
             Flight departed · Lands in
           </p>
           <p className="font-display text-3xl text-ink tabular-nums sm:text-4xl">
-            {formatDepartureCountdown(itinerary.arrivalAt, now)}
+            <RollingTime value={formatDepartureCountdown(itinerary.arrivalAt, now)} />
           </p>
         </div>
         <div
@@ -85,7 +101,7 @@ export function FlightStatus({ itinerary }: { itinerary: Itinerary }) {
         Flight scheduled to depart in
       </p>
       <p className="font-display text-3xl text-ink tabular-nums sm:text-4xl">
-        {formatDepartureCountdown(itinerary.departureAt, now)}
+        <RollingTime value={formatDepartureCountdown(itinerary.departureAt, now)} />
       </p>
     </div>
   );

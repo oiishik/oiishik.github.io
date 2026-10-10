@@ -180,6 +180,7 @@ export function BoardingPassPage() {
             </div>
           </dl>
         </div>
+        <div className="bp-barcode md:col-span-2" aria-hidden="true" />
       </article>
 
       <p className="mt-3 text-sm text-muted">

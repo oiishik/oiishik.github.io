@@ -32,6 +32,8 @@ export function ProfilePage() {
           <img
             src="/oishik.jpg"
             alt=""
+            width={192}
+            height={192}
             className="size-20 shrink-0 rounded-full object-cover ring-2 ring-ink/15 sm:size-24"
           />
           <div className="min-w-0">

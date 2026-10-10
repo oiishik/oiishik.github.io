@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { profile } from "../config/profile";
 import { accountLinks } from "./AccountNav";
 import { CurrentIcon, SdeMark } from "./BrandIcon";
-import { MoonIcon, SunIcon } from "./icons";
 import { useTheme } from "./ThemeProvider";
 
 function AccountMenu() {
@@ -85,7 +84,7 @@ export function SiteHeader() {
             aria-label={nextLabel}
             className="inline-flex size-9 items-center justify-center rounded-md border border-header-ink/50 text-header-ink"
           >
-            {theme === "dark" ? <SunIcon className="size-4" /> : <MoonIcon className="size-4" />}
+            <span className={`lamp-toggle ${theme === "dark" ? "lamp-toggle--off" : "lamp-toggle--on"}`} aria-hidden="true" />
           </button>
         </div>
       </div>
