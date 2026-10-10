@@ -84,7 +84,10 @@ export function SiteHeader() {
             aria-label={nextLabel}
             className="inline-flex size-9 items-center justify-center rounded-md border border-header-ink/50 text-header-ink"
           >
-            <span className={`lamp-toggle ${theme === "dark" ? "lamp-toggle--off" : "lamp-toggle--on"}`} aria-hidden="true" />
+            <span className="relative size-[26px]" aria-hidden="true">
+              <span className={`lamp-toggle lamp-toggle--on absolute inset-0 ${theme === "dark" ? "opacity-0" : ""}`} />
+              <span className={`lamp-toggle lamp-toggle--off absolute inset-0 ${theme === "dark" ? "" : "opacity-0"}`} />
+            </span>
           </button>
         </div>
       </div>
