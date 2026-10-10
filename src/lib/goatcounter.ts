@@ -1,5 +1,3 @@
-import { profile } from "../config/profile";
-
 type CountVars = {
   path: string;
   title?: string;
@@ -52,14 +50,4 @@ export function trackEvent(path: string, title: string) {
   if (!document.querySelector("script[data-goatcounter]")) return;
   pending.push(vars);
   scheduleFlush();
-}
-
-export function visitEvent(pathname: string) {
-  if (pathname === "/") return { path: "visit-landing", title: "Visited landing page" };
-  if (pathname === "/profile") return { path: "visit-profile", title: "Visited profile page" };
-  if (pathname === "/boarding-pass") return { path: "visit-boarding-pass", title: "Visited boarding pass page" };
-  if (pathname.toUpperCase() === `/trips/${profile.pnr}`.toUpperCase()) {
-    return { path: "visit-oishik", title: "Visited OISHIK page" };
-  }
-  return null;
 }
