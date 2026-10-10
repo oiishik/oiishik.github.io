@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation, useParams } from "
 import { SiteShell } from "./components/SiteShell";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { profile } from "./config/profile";
-import { trackEvent, visitEvent } from "./lib/goatcounter";
+import { trackEvent } from "./lib/goatcounter";
 import { BoardingPassPage } from "./pages/BoardingPassPage";
 import { BookingPage } from "./pages/BookingPage";
 import { HomePage } from "./pages/HomePage";
@@ -23,8 +23,6 @@ function GoatCounterPageViews() {
     } else {
       initial.current = false;
     }
-    const visit = visitEvent(location.pathname);
-    if (visit) trackEvent(visit.path, visit.title);
   }, [location.pathname, location.search]);
 
   useEffect(() => {
