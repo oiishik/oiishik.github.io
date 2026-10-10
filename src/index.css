@@ -283,6 +283,49 @@ body {
   }
 }
 
+.addon-overlay {
+  animation: addon-fade 0.2s ease-out both;
+}
+
+.addon-sheet {
+  animation: addon-sheet-up 0.3s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+@media (min-width: 720px) {
+  .addon-sheet {
+    animation-name: addon-pop;
+  }
+}
+
+@keyframes addon-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes addon-sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes addon-pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .bp-barcode {
   height: 38px;
   opacity: 0.85;

@@ -1,192 +1,265 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(useGSAP);
 import { addons, type Addon } from "../../config/addons";
-import { flightLabel, profile } from "../../config/profile";
-import { CheckIcon, ChevronIcon } from "../icons";
-import { motionEnabled } from "../../lib/motion";
+import { profile } from "../../config/profile";
+import { CurrentIcon } from "../BrandIcon";
+import { ArrowRightIcon, CheckIcon, ChevronIcon, PlusIcon } from "../icons";
 
 function AddonCard({
   addon,
   added,
+  canAdd,
+  expanded,
+  onExpand,
   onToggle,
 }: {
   addon: Addon;
   added: boolean;
+  canAdd: boolean;
+  expanded: boolean;
+  onExpand: (open: boolean) => void;
   onToggle: () => void;
 }) {
-  const [open, setOpen] = useState(false);
-  const detailsId = useId();
+  const label = added ? `Added: remove ${addon.title}` : `Add ${addon.title}`;
 
   return (
-    <article className={`flex flex-col p-4 sm:p-5 ${added ? "bg-brand/10" : ""}`}>
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <h3 className="text-lg font-semibold leading-tight">{addon.title}</h3>
-          <p className="mt-1 text-sm text-muted">{addon.subtitle}</p>
+    <article className={`border-b border-line px-5 py-5 last:border-b-0 min-[720px]:px-7 min-[720px]:py-6 ${added ? "bg-brand-soft" : ""}`}>
+      <div className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-4 min-[521px]:grid-cols-[auto_minmax(0,1fr)_auto]">
+        <span className="inline-flex size-10 items-center justify-center rounded-full border border-line bg-page text-brand">
+          <CurrentIcon src={addon.icon} className="size-5" />
+        </span>
+        <div className="min-w-0">
+          <h3 className="text-lg font-semibold leading-snug">{addon.title}</h3>
+          <p className="mt-1 text-[15px] font-medium text-muted">{addon.summary}</p>
+          <p className="mt-2 flex items-baseline gap-2 text-[13px]">
+            <s className="font-semibold text-muted decoration-2">
+              <span className="sr-only">Was </span>
+              {addon.was}
+            </s>
+            <strong className="font-semibold text-good">
+              <span className="sr-only">, now </span>
+              Free
+            </strong>
+          </p>
         </div>
         <button
           type="button"
           onClick={onToggle}
+          disabled={!canAdd}
           aria-pressed={added}
-          className={`inline-flex shrink-0 items-center gap-1 rounded-md px-3 py-1.5 text-sm font-semibold ${
-            added ? "bg-good text-white" : "border border-brand text-brand"
+          aria-label={label}
+          className={`col-start-2 mt-2.5 inline-flex min-h-10 items-center gap-1.5 justify-self-start rounded-sm border-2 px-3.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40 min-[521px]:col-start-3 min-[521px]:row-start-1 min-[521px]:mt-0 ${
+            added ? "border-good bg-good text-white dark:text-page" : "border-brand bg-transparent text-brand enabled:hover:bg-brand-soft"
           }`}
         >
           {added ? (
             <>
-              <CheckIcon className="size-3.5" />
               Added
+              <CheckIcon className="size-4" />
             </>
           ) : (
-            "Add +"
+            <>
+              Add
+              <PlusIcon className="size-4" />
+            </>
           )}
         </button>
       </div>
 
-      <p className="mt-3 text-sm">{addon.summary}</p>
-
-      <p className="mt-3 text-sm">
-        <span className="text-muted line-through">{addon.was}</span>{" "}
-        <span className="font-semibold text-good">FREE</span>{" "}
-        <span className="text-good">Included with your fare</span>
-      </p>
-      <p className="mt-1 text-xs text-muted">{addon.proof}</p>
-
-      <ul className="mt-3 list-disc space-y-1 pl-5 text-sm">
-        {addon.points.map((point) => (
-          <li key={point}>{point}</li>
-        ))}
-      </ul>
-
-      <button
-        type="button"
-        className="mt-4 flex w-full items-center justify-between border-t border-line pt-3 text-sm font-semibold"
-        aria-expanded={open}
-        aria-controls={detailsId}
-        onClick={() => setOpen((value) => !value)}
+      <details
+        className="group mt-3 ml-14"
+        open={expanded}
+        onToggle={(event) => {
+          onExpand(event.currentTarget.open);
+        }}
       >
-        How it works
-        <ChevronIcon className={`size-4 transition-transform ${open ? "" : "rotate-180"}`} />
-      </button>
-      {open ? (
-        <ul id={detailsId} className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted">
-          {addon.how.map((paragraph) => (
-            <li key={paragraph}>{paragraph}</li>
-          ))}
-        </ul>
-      ) : null}
-
-      <p className="mt-3 text-sm">
-        <span className="font-semibold">Built with</span> {addon.builtWith.join(" · ")}
-      </p>
-
-      <a
-        className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand underline-offset-2 hover:underline"
-        href={profile.resumeViewUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Read more
-        <span aria-hidden="true">→</span>
-      </a>
+        <summary className="inline-flex min-h-9 cursor-pointer list-none items-center gap-1 text-sm font-bold text-brand hover:underline [&::-webkit-details-marker]:hidden">
+          How it works
+          <ChevronIcon className="size-4 rotate-180 transition-transform group-open:rotate-0" />
+        </summary>
+        <div className="mt-1.5 border-l-2 border-line py-1.5 pl-4">
+          <p className="text-sm font-semibold">{addon.subtitle}</p>
+          <h4 className="mt-3.5 mb-1.5 text-[13px] font-semibold text-muted">What you get</h4>
+          <ul className="list-disc space-y-1.5 pl-4 text-sm leading-relaxed">
+            {addon.points.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
+          <h4 className="mt-3.5 mb-1.5 text-[13px] font-semibold text-muted">Under the hood</h4>
+          <ul className="list-disc space-y-1.5 pl-4 text-sm leading-relaxed">
+            {addon.how.map((paragraph) => (
+              <li key={paragraph}>{paragraph}</li>
+            ))}
+          </ul>
+          <h4 className="mt-3.5 mb-1.5 text-[13px] font-semibold text-muted">Built with</h4>
+          <p className="flex flex-wrap gap-1.5">
+            {addon.builtWith.map((name) => (
+              <span key={name} className="rounded-full border border-line px-2.5 py-0.5 text-xs font-semibold">
+                {name}
+              </span>
+            ))}
+          </p>
+          <a
+            className="mt-2.5 inline-flex min-h-11 items-center gap-1.5 text-sm font-bold text-brand underline-offset-2 hover:underline"
+            href={profile.resumeViewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read more
+            <ArrowRightIcon className="size-4" />
+            <span className="sr-only"> about {addon.title} in the resume (opens in a new tab)</span>
+          </a>
+        </div>
+      </details>
     </article>
   );
 }
 
 export function AddonDialog({
   selected,
+  canAdd,
   onToggle,
   onCancel,
   onConfirm,
 }: {
   selected: string[];
+  canAdd: boolean;
   onToggle: (id: string) => void;
   onCancel: () => void;
   onConfirm: () => void;
 }) {
   const titleId = useId();
+  const descriptionId = useId();
   const panel = useRef<HTMLDivElement>(null);
+  const title = useRef<HTMLHeadingElement>(null);
+  const onCancelRef = useRef(onCancel);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const count = selected.length;
-
-  useGSAP(
-    () => {
-      if (!panel.current || !motionEnabled()) return;
-      gsap.from(panel.current, {
-        opacity: 0,
-        duration: 0.28,
-        ease: "power2.out",
-      });
-    },
-    { scope: panel },
-  );
   const summary = count === 0 ? "No add-ons selected" : count === 1 ? "1 add-on selected" : `${count} add-ons selected`;
 
   useEffect(() => {
-    function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape") onCancel();
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    onCancelRef.current = onCancel;
   }, [onCancel]);
 
+  useEffect(() => {
+    const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    title.current?.focus({ preventScroll: true });
+
+    function focusable() {
+      const root = panel.current;
+      if (!root) return [];
+      return [...root.querySelectorAll<HTMLElement>("button:not([disabled]), a[href], summary, [tabindex='-1']")].filter(
+        (element) => {
+          if (element.closest("[hidden]")) return false;
+          const details = element.closest("details");
+          if (details && !details.open && !element.closest("summary")) return false;
+          return true;
+        },
+      );
+    }
+
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        onCancelRef.current();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const items = focusable();
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (!first || !last) return;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      previous?.focus({ preventScroll: true });
+    };
+  }, []);
+
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[#2a1814]/55 sm:items-center sm:p-6">
-      <button type="button" className="absolute inset-0 cursor-default" aria-label="Close add-ons" onClick={onCancel} />
+    <div
+      className="addon-overlay fixed inset-0 z-50 flex items-end justify-center bg-[#140a08]/60 min-[720px]:items-center min-[720px]:p-6"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onCancel();
+      }}
+    >
       <div
         ref={panel}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative flex max-h-[min(860px,calc(100dvh-1rem))] w-full max-w-4xl flex-col overflow-hidden rounded-t-lg bg-page sm:rounded-lg"
+        aria-describedby={descriptionId}
+        className="addon-sheet relative flex max-h-[92vh] w-full flex-col overflow-hidden rounded-t-[10px] bg-page text-ink min-[720px]:max-h-[calc(100vh-48px)] min-[720px]:max-w-[680px] min-[720px]:rounded-lg"
       >
-        <div className="flex items-start justify-between gap-3 border-b border-line px-5 py-4">
+        <div className="mx-auto mt-2.5 h-1 w-10 shrink-0 rounded-full bg-line min-[720px]:hidden" aria-hidden="true" />
+        <div className="flex shrink-0 items-start justify-between gap-3 border-b border-line px-5 py-3.5 min-[720px]:px-7 min-[720px]:pt-5 min-[720px]:pb-4">
           <div>
-            <h2 id={titleId} className="text-2xl font-semibold">
+            <h2 id={titleId} ref={title} tabIndex={-1} className="text-[26px] font-semibold tracking-tight outline-none">
               Select add-ons
             </h2>
-            <p className="mt-1 text-sm text-muted">
-              PNR {profile.pnr} · {flightLabel()} · Both add-ons are included with your fare
+            <p id={descriptionId} className="mt-0.5 text-sm font-semibold text-muted">
+              Both are included with your fare
             </p>
           </div>
           <button
             type="button"
             onClick={onCancel}
-            aria-label="Close"
-            className="inline-flex size-9 items-center justify-center rounded-md border border-line text-lg"
+            aria-label="Close add-ons"
+            className="inline-flex size-11 items-center justify-center rounded-sm border border-line text-lg"
           >
             ×
           </button>
         </div>
 
-        <div className="grid min-h-0 flex-1 overflow-y-auto sm:grid-cols-2 sm:divide-x sm:divide-line">
+        <div className="min-h-0 flex-1 overflow-y-auto">
           {addons.map((addon) => (
             <AddonCard
               key={addon.id}
               addon={addon}
               added={selected.includes(addon.id)}
+              canAdd={canAdd}
+              expanded={expandedId === addon.id}
+              onExpand={(open) =>
+                setExpandedId((current) => {
+                  if (open) return addon.id;
+                  return current === addon.id ? null : current;
+                })
+              }
               onToggle={() => onToggle(addon.id)}
             />
           ))}
         </div>
 
-        <div className="flex items-center justify-between gap-3 border-t border-line px-5 py-4">
-          <p className="text-sm">{summary}</p>
-          <div className="flex gap-2">
+        <div className="flex shrink-0 flex-wrap items-center justify-between gap-2.5 border-t border-line px-5 py-3.5 min-[720px]:px-7 min-[720px]:py-4">
+          <div className="min-w-0">
+            <p className="text-sm font-bold text-muted" aria-live="polite">
+              {summary}
+            </p>
+            {canAdd ? null : (
+              <p className="mt-0.5 text-xs text-muted">Add-ons can only be added before takeoff.</p>
+            )}
+          </div>
+          <div className="flex w-full gap-2.5 min-[720px]:w-auto">
             <button
               type="button"
               onClick={onCancel}
-              className="rounded-md border border-line px-4 py-2 text-sm font-semibold"
+              className="min-h-12 flex-1 rounded-sm border border-ink px-5 text-[15px] font-bold min-[720px]:min-w-[132px] min-[720px]:flex-none"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={onConfirm}
-              className="rounded-md bg-btn px-4 py-2 text-sm font-semibold text-btn-text"
+              disabled={count === 0 || !canAdd}
+              className="min-h-12 flex-1 rounded-sm bg-btn px-5 text-[15px] font-bold text-btn-text disabled:cursor-not-allowed disabled:opacity-40 min-[720px]:min-w-[132px] min-[720px]:flex-none"
             >
               Confirm
             </button>

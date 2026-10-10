@@ -115,7 +115,6 @@ export function ProfilePage() {
               </dd>
             </div>
           </dl>
-          <p className="mt-3 text-sm text-muted">Platinum is 4 more years away.</p>
         </section>
 
         <section className="min-w-0 pt-8 lg:col-span-2">

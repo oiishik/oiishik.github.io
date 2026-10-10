@@ -3,12 +3,13 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it } from "vitest";
 import { profile } from "../../config/profile";
+import { getItinerary, itineraryFromDeparture } from "../../lib/itinerary";
 import { ManageBookingCard } from "./ManageBookingCard";
 
-function renderCard() {
+function renderCard(itinerary = getItinerary()) {
   return render(
     <MemoryRouter>
-      <ManageBookingCard />
+      <ManageBookingCard itinerary={itinerary} />
     </MemoryRouter>,
   );
 }
@@ -85,14 +86,20 @@ describe("Manage booking tiles", () => {
       expect(link).not.toHaveAttribute("download");
       expect(link.getAttribute("href")).not.toContain("export=download");
     }
-    expect(dialog).toHaveTextContent("Included with your fare");
+    expect(dialog).toHaveTextContent("Both are included with your fare");
     expect(dialog).not.toHaveTextContent("Senior Backend Engineer");
-    expect(dialog).toHaveTextContent("30 Bookings automated in last 10min!");
-    expect(dialog).toHaveTextContent("100–200 flights already subscribed!");
+    expect(dialog).toHaveTextContent("Event-driven, automated booking confirmation.");
+    expect(dialog).toHaveTextContent("Every PNR is published to SNS, so late airline responses are never lost.");
+    expect(dialog).not.toHaveTextContent("30 Bookings automated in last 10min!");
     expect(screen.getByText("No add-ons selected")).toBeInTheDocument();
+    expect(screen.queryByText("Add-ons can only be added before takeoff.")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Confirm" })).toBeDisabled();
 
-    await user.click(screen.getAllByRole("button", { name: "Add +" })[0]);
-    expect(screen.getByRole("button", { name: "Added" })).toHaveAttribute("aria-pressed", "true");
+    await user.click(screen.getByRole("button", { name: "Add Booking Pending Confirmation" }));
+    expect(screen.getByRole("button", { name: "Added: remove Booking Pending Confirmation" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
     expect(screen.getByText("1 add-on selected")).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Cancel" }));
@@ -100,8 +107,8 @@ describe("Manage booking tiles", () => {
     expect(screen.queryByText("Added")).not.toBeInTheDocument();
 
     await user.click(screen.getAllByRole("button", { name: /select add-on/i })[0]);
-    await user.click(screen.getAllByRole("button", { name: "Add +" })[0]);
-    await user.click(screen.getByRole("button", { name: "Add +" }));
+    await user.click(screen.getByRole("button", { name: "Add Booking Pending Confirmation" }));
+    await user.click(screen.getByRole("button", { name: "Add Live Flight Alerts" }));
     await user.click(screen.getByRole("button", { name: "Confirm" }));
 
     expect(screen.getAllByText("Added")).toHaveLength(2);
@@ -109,5 +116,39 @@ describe("Manage booking tiles", () => {
     expect(screen.getByText("Live Flight Alerts")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /select add-on/i })).toHaveTextContent("2 added");
     expect(screen.getByRole("status")).toHaveTextContent("2 add-ons added to PNR OISHIK");
+  });
+
+  it("keeps only one How it works section open", async () => {
+    const user = userEvent.setup();
+    renderCard();
+
+    await user.click(screen.getAllByRole("button", { name: /select add-on/i })[0]);
+    const summaries = screen.getAllByText("How it works");
+    const sections = () => [...document.querySelectorAll("details")];
+
+    await user.click(summaries[0]);
+    expect(sections()[0]?.open).toBe(true);
+    expect(sections()[1]?.open).toBe(false);
+
+    await user.click(summaries[1]);
+    expect(sections()[0]?.open).toBe(false);
+    expect(sections()[1]?.open).toBe(true);
+
+    await user.click(summaries[1]);
+    expect(sections()[1]?.open).toBe(false);
+  });
+
+  it("opens add-ons after departure but keeps Add disabled", async () => {
+    const user = userEvent.setup();
+    renderCard(itineraryFromDeparture(Date.now() - 60_000));
+
+    await user.click(screen.getAllByRole("button", { name: "Details →" })[0]);
+
+    expect(screen.getByRole("dialog", { name: /select add-ons/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Add Booking Pending Confirmation" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Add Live Flight Alerts" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Confirm" })).toBeDisabled();
+    expect(screen.getByText("Add-ons can only be added before takeoff.")).toBeInTheDocument();
+    expect(screen.getAllByText("How it works").length).toBeGreaterThan(0);
   });
 });
