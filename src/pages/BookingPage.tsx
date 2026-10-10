@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(useGSAP);
 import { profile } from "../config/profile";
 import { FlightStatus } from "../components/booking/FlightStatus";
 import { BookingCardSkeleton } from "../components/booking/BookingSkeleton";
@@ -84,7 +86,7 @@ export function BookingPage() {
 
   return (
     <div ref={page}>
-      <div className="bg-surface">
+      <div className="dot-field bg-surface">
         <div className="mx-auto max-w-6xl px-5 pt-6 pb-6 sm:px-8 lg:px-12">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="flex items-start gap-1">

@@ -1,15 +1,20 @@
-import { useEffect, useRef } from "react";
+import { lazy, useEffect, useRef } from "react";
 import { BrowserRouter, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { SiteShell } from "./components/SiteShell";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { profile } from "./config/profile";
-import { trackEvent, visitEvent } from "./lib/goatcounter";
-import { BoardingPassPage } from "./pages/BoardingPassPage";
-import { BookingPage } from "./pages/BookingPage";
+import { trackEvent } from "./lib/goatcounter";
 import { HomePage } from "./pages/HomePage";
-import { PastBookingPage } from "./pages/PastBookingPage";
-import { ProfilePage } from "./pages/ProfilePage";
-import { TripsPage } from "./pages/TripsPage";
+
+const BookingPage = lazy(() => import("./pages/BookingPage").then((module) => ({ default: module.BookingPage })));
+const PastBookingPage = lazy(() =>
+  import("./pages/PastBookingPage").then((module) => ({ default: module.PastBookingPage })),
+);
+const ProfilePage = lazy(() => import("./pages/ProfilePage").then((module) => ({ default: module.ProfilePage })));
+const TripsPage = lazy(() => import("./pages/TripsPage").then((module) => ({ default: module.TripsPage })));
+const BoardingPassPage = lazy(() =>
+  import("./pages/BoardingPassPage").then((module) => ({ default: module.BoardingPassPage })),
+);
 
 function GoatCounterPageViews() {
   const location = useLocation();
@@ -23,8 +28,6 @@ function GoatCounterPageViews() {
     } else {
       initial.current = false;
     }
-    const visit = visitEvent(location.pathname);
-    if (visit) trackEvent(visit.path, visit.title);
   }, [location.pathname, location.search]);
 
   useEffect(() => {

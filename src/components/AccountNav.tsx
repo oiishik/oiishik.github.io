@@ -38,8 +38,8 @@ export function AccountNav() {
             key={link.label}
             to={link.to}
             aria-current={link.active ? "page" : undefined}
-            className={`inline-flex shrink-0 items-center gap-2 border-b-2 py-3 text-sm font-semibold ${
-              link.active ? "border-brand text-brand" : "border-transparent text-ink"
+            className={`nav-tab inline-flex shrink-0 items-center gap-2 py-3 text-sm font-semibold ${
+              link.active ? "text-brand" : "text-ink"
             }`}
           >
             <CurrentIcon src={link.icon} />

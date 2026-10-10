@@ -182,9 +182,115 @@ body {
   animation: live-dot 1.3s ease-in-out infinite;
 }
 
+.page-enter {
+  animation: page-enter 0.16s ease-out;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 :focus-visible {
-  outline: 2px solid var(--brand);
-  outline-offset: 2px;
+  outline: 2px dashed var(--brand);
+  outline-offset: 3px;
+}
+
+/* Faint dots on the pink landing and booking-summary bands. */
+.dot-field {
+  background-image: radial-gradient(color-mix(in srgb, var(--display) 10%, transparent) 1px, transparent 1.4px);
+  background-size: 18px 18px;
+}
+
+.lamp-toggle {
+  width: 26px;
+  height: 26px;
+  background: currentColor;
+  -webkit-mask: center / contain no-repeat;
+  mask: center / contain no-repeat;
+}
+
+.lamp-toggle--on {
+  -webkit-mask-image: url("/icons/lamp-on.png");
+  mask-image: url("/icons/lamp-on.png");
+}
+
+.lamp-toggle--off {
+  -webkit-mask-image: url("/icons/lamp-off.png");
+  mask-image: url("/icons/lamp-off.png");
+}
+
+.nav-tab {
+  position: relative;
+}
+
+.nav-tab::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.nav-tab[aria-current="page"]::after {
+  transform: scaleX(1);
+  animation: tab-in 0.45s 0.15s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+@keyframes tab-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.odo {
+  display: inline-flex;
+  overflow: hidden;
+  line-height: 1.05;
+}
+
+.odo > span {
+  display: inline-block;
+}
+
+.roll-a {
+  animation: roll-digit 0.38s cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.roll-b {
+  animation: roll-digit 0.38s cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+@keyframes roll-digit {
+  from {
+    transform: translateY(-70%);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.bp-barcode {
+  height: 38px;
+  opacity: 0.85;
+  background:
+    repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(90deg, transparent 0 3px, var(--ink) 3px 4px, transparent 4px 11px);
+  -webkit-mask: repeating-linear-gradient(90deg, #000 0 23px, transparent 23px 26px, #000 26px 41px, transparent 41px 43px);
+  mask: repeating-linear-gradient(90deg, #000 0 23px, transparent 23px 26px, #000 26px 41px, transparent 41px 43px);
 }
 
 @media (prefers-reduced-motion: reduce) {

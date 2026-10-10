@@ -16,12 +16,12 @@ describe("FlightStatus", () => {
     render(<FlightStatus itinerary={itinerary} />);
 
     expect(screen.getByText(/Flight scheduled to depart in/)).toBeInTheDocument();
-    expect(screen.getByText("00:30:00")).toBeInTheDocument();
+    expect(screen.getByText((_, node) => node?.classList.contains("odo") === true && node.textContent === "00:30:00")).toBeInTheDocument();
 
     act(() => {
       vi.advanceTimersByTime(1000);
     });
-    expect(screen.getByText("00:29:59")).toBeInTheDocument();
+    expect(screen.getByText((_, node) => node?.classList.contains("odo") === true && node.textContent === "00:29:59")).toBeInTheDocument();
   });
 
   it("shows the gate once the departure time has passed", () => {

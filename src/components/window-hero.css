@@ -1,0 +1,41 @@
+/* Cabin window hero art. Light = sunset, dark = night. Colours are the --w-* variables below. */
+.sde-window{--w-frame:#FFFFFF;--w-bezel:#F7E4E0;--w-sky-a:#F0B4A2;--w-sky-b:#F9DACD;--w-sky-c:#FFF1EA;--w-sun:#EE8F72;--w-halo:rgba(238,143,114,.38);--w-moon:transparent;--w-star:transparent;--w-cloud:#FFFFFF;--w-sea-far:#FADCD3;--w-sea-near:#FEF2EE;--w-jet:rgba(165,54,30,.55);--w-trail:rgba(255,255,255,.9);--w-shade:#F4DAD4;--w-shade-edge:#E9C3BB;--w-glare:rgba(255,255,255,.4);--w-shadow:rgba(165,54,30,.16)}
+.sde-window--dark{--w-frame:#352D2A;--w-bezel:#241E1C;--w-sky-a:#181413;--w-sky-b:#241C1A;--w-sky-c:#3A2C27;--w-sun:transparent;--w-halo:rgba(239,227,217,.16);--w-moon:#EFE3D9;--w-star:#E6DCD7;--w-cloud:#4A3D38;--w-sea-far:#352B28;--w-sea-near:#433733;--w-jet:rgba(176,162,156,.7);--w-trail:rgba(230,220,215,.18);--w-shade:#2B2421;--w-shade-edge:#3E3531;--w-glare:rgba(255,255,255,.05);--w-shadow:rgba(0,0,0,.35)}
+.sde-window{position:relative;height:100%;display:flex;align-items:center;justify-content:center}
+.sde-window .win{position:relative;height:100%;aspect-ratio:400/520;animation:sde-win-bob 9s ease-in-out infinite}
+.sde-window-svg{display:block;width:100%;height:100%;overflow:visible}
+.sde-window .win-frame{fill:var(--w-frame);filter:drop-shadow(0 18px 28px var(--w-shadow))}
+.sde-window .win-bezel{fill:var(--w-bezel)}
+.sde-window .sky-a{stop-color:var(--w-sky-a)}
+.sde-window .sky-b{stop-color:var(--w-sky-b)}
+.sde-window .sky-c{stop-color:var(--w-sky-c)}
+.sde-window .win-sun{fill:var(--w-sun)}
+.sde-window .halo-a{stop-color:var(--w-halo)}
+.sde-window .halo-b{stop-color:var(--w-halo);stop-opacity:0}
+.sde-window .win-halo{animation:sde-win-glow 7s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.sde-window .win-moon{fill:var(--w-moon)}
+.sde-window .win-stars circle{fill:var(--w-star);animation:sde-win-twinkle 4.5s ease-in-out infinite}
+.sde-window .win-stars .s2{animation-delay:-1.5s}
+.sde-window .win-stars .s3{animation-delay:-3s}
+.sde-window .puff{fill:var(--w-cloud);animation:sde-win-drift linear infinite}
+.sde-window .p1{animation-duration:30s;animation-delay:-9s}
+.sde-window .p2{animation-duration:42s;animation-delay:-24s;opacity:.8}
+.sde-window .p3{animation-duration:24s;animation-delay:-3s}
+.sde-window .p4{animation-duration:36s;animation-delay:-30s;opacity:.65}
+.sde-window .sea-far{fill:var(--w-sea-far);animation:sde-win-sea 16s linear infinite}
+.sde-window .sea-near{fill:var(--w-sea-near);animation:sde-win-sea-near 11s linear infinite}
+.sde-window .win-jet{animation:sde-win-fly 34s linear infinite}
+.sde-window .jet{fill:var(--w-jet)}
+.sde-window .jet-trail{stroke:var(--w-trail);stroke-width:1.6;stroke-linecap:round;fill:none}
+.sde-window .win-glare{stroke:var(--w-glare);stroke-width:5;stroke-linecap:round;fill:none}
+.sde-window .win-shade{fill:var(--w-shade)}
+.sde-window .shade-edge{fill:var(--w-shade-edge)}
+.sde-window .shade-handle{fill:var(--w-frame)}
+@keyframes sde-win-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes sde-win-glow{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes sde-win-twinkle{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes sde-win-drift{0%{transform:translate(380px,0)}25%{transform:translate(265px,-5px)}50%{transform:translate(150px,0)}75%{transform:translate(35px,5px)}100%{transform:translate(-80px,0)}}
+@keyframes sde-win-sea{from{transform:translateX(0)}to{transform:translateX(-100px)}}
+@keyframes sde-win-sea-near{from{transform:translateX(0)}to{transform:translateX(-140px)}}
+@keyframes sde-win-fly{0%{transform:translateX(380px)}45%{transform:translateX(-170px)}100%{transform:translateX(-170px)}}
+@media (prefers-reduced-motion: reduce){.sde-window *{animation:none !important;transition:none !important}}

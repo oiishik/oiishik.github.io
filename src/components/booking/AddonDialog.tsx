@@ -2,6 +2,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(useGSAP);
 import { addons, type Addon } from "../../config/addons";
 import { flightLabel, profile } from "../../config/profile";
 import { CheckIcon, ChevronIcon } from "../icons";

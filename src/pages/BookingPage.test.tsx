@@ -31,7 +31,9 @@ describe("BookingPage", () => {
 
     expect(screen.getByText(/Flight scheduled to depart in/)).toBeInTheDocument();
     expect(screen.getByText(/CCU\s*→\s*PNQ/)).toBeInTheDocument();
-    expect(screen.getByText("00:15:00")).toBeInTheDocument();
+    expect(
+      screen.getByText((_, node) => node?.classList.contains("odo") === true && node.textContent === "00:15:00"),
+    ).toBeInTheDocument();
   });
 
   it("copies the PNR", async () => {
