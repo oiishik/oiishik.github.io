@@ -115,7 +115,7 @@ export function BookingPage() {
         {ready && itinerary ? (
           <div data-booking-card>
             <FlightDetailsCard itinerary={itinerary} />
-            <ManageBookingCard />
+            <ManageBookingCard itinerary={itinerary} />
           </div>
         ) : (
           <BookingCardSkeleton id="flight" />

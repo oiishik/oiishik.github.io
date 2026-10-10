@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { addons } from "../../config/addons";
 import { profile } from "../../config/profile";
 import { trackEvent } from "../../lib/goatcounter";
+import { flightPhase, type Itinerary } from "../../lib/itinerary";
+import { useFlightClock } from "./FlightStatus";
 import { CurrentIcon } from "../BrandIcon";
 import { FareBenefitsCard } from "./FareBenefitsCard";
 import { PassengerDetailsCard } from "./PassengerDetailsCard";
@@ -83,7 +85,9 @@ function Row({
   );
 }
 
-export function ManageBookingCard() {
+export function ManageBookingCard({ itinerary }: { itinerary: Itinerary }) {
+  const now = useFlightClock();
+  const canAdd = flightPhase(itinerary.departureAt, itinerary.arrivalAt, now) === "countdown";
   const [open, setOpen] = useState(false);
   const [confirmed, setConfirmed] = useState<string[]>([]);
   const [draft, setDraft] = useState<string[]>([]);
@@ -103,10 +107,12 @@ export function ManageBookingCard() {
   }
 
   function toggle(id: string) {
+    if (!canAdd) return;
     setDraft((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]));
   }
 
   function confirm() {
+    if (!canAdd) return;
     setConfirmed(draft);
     setOpen(false);
     setToastCount(draft.length);
@@ -133,7 +139,8 @@ export function ManageBookingCard() {
             return (
               <li key={addon.id} className="border-b border-line py-4">
                 <div className="flex items-start justify-between gap-3">
-                  <p className="font-semibold">
+                  <p className="flex flex-wrap items-center gap-2 font-semibold">
+                    <CurrentIcon src={addon.icon} className="size-4 text-brand" />
                     {addon.title}
                     {added ? (
                       <span className="ml-2 inline-flex items-center rounded-sm bg-good px-1.5 py-0.5 text-[11px] font-semibold text-white">
@@ -207,7 +214,13 @@ export function ManageBookingCard() {
       </section>
 
       {open ? (
-        <AddonDialog selected={draft} onToggle={toggle} onCancel={() => setOpen(false)} onConfirm={confirm} />
+        <AddonDialog
+          selected={draft}
+          canAdd={canAdd}
+          onToggle={toggle}
+          onCancel={() => setOpen(false)}
+          onConfirm={confirm}
+        />
       ) : null}
 
       {toastCount > 0 ? (

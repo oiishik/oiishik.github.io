@@ -101,7 +101,7 @@ describe("ProfilePage", () => {
     expect(screen.getByRole("heading", { name: /Oishik Sengupta/ })).toBeInTheDocument();
     expect(screen.getByText(/Gold member/)).toBeInTheDocument();
     expect(screen.getAllByText("OS14012000").length).toBeGreaterThan(0);
-    expect(screen.getByText("Platinum is 4 more years away.")).toBeInTheDocument();
+    expect(screen.queryByText("Platinum is 4 more years away.")).not.toBeInTheDocument();
     expect(screen.queryByText(/Flights taken/)).not.toBeInTheDocument();
     expect(screen.getByText("Travel and airline tech")).toBeInTheDocument();
     expect(screen.queryByText("Locked")).not.toBeInTheDocument();
