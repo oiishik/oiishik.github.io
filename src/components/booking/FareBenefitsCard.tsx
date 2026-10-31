@@ -69,7 +69,7 @@ export function FareBenefitsCard() {
         <p className="text-xs text-muted">Tech stack</p>
       </div>
       <dl className="mt-1">
-        <Row label="Brand">{profile.fareBrand}</Row>
+        <Row label="Designation">{profile.fareBrand}</Row>
         {stack.map(({ label, items }) => (
           <Row key={label} label={label}>
             <span className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
