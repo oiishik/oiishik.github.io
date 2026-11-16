@@ -29,9 +29,8 @@ export const profile = {
     { category: "GIT", label: "GitHub", logo: "/logos/github.png" },
     { category: "SCRUM", label: "Jira", logo: "/logos/jira.png" },
   ],
-  resumePath:
-    "https://drive.usercontent.google.com/download?id=1QWyXqQ5doDSB-Dl_rMZlPtb04pp20OhE&export=download&confirm=t",
-  resumeViewUrl: "https://drive.google.com/file/d/1QWyXqQ5doDSB-Dl_rMZlPtb04pp20OhE/view",
+  resumePath: "https://drive.google.com/file/d/1iDO0ZD2Pum2VbiYa7zVq6loJCG5jVt3j/view?usp=sharing",
+  resumeViewUrl: "https://drive.google.com/file/d/1iDO0ZD2Pum2VbiYa7zVq6loJCG5jVt3j/view?usp=sharing",
   /** Gate, seat, and sequence are taken from the design PDF. */
   gate: "B7",
   seat: "2A",

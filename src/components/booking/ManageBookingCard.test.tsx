@@ -65,7 +65,7 @@ describe("Manage booking tiles", () => {
     renderCard();
     const link = screen.getByRole("link", { name: /download e-ticket/i });
     expect(link).toHaveAttribute("href", profile.resumePath);
-    expect(link.getAttribute("href")).toContain("export=download");
+    expect(link.getAttribute("href")).toContain("1iDO0ZD2Pum2VbiYa7zVq6loJCG5jVt3j");
     expect(link).toHaveAttribute("download");
     expect(link).not.toHaveAttribute("target");
   });
